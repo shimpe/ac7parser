@@ -32,8 +32,19 @@ class Ac7DrumParameters(Ac7Base):
             for j in range(int((next_offset - offset)/3)):
                 casioevent = {}
                 casioevent['delta'] = self._read(BinaryReader.u1(self._buffer, self._pos))
-                casioevent['note'] = self._read(BinaryReader.u1(self._buffer, self._pos))
-                casioevent['velocity'] = self._read(BinaryReader.u1(self._buffer, self._pos))
+                casioevent['note_or_event'] = self._read(BinaryReader.u1(self._buffer, self._pos))
+                casioevent['vel_or_val'] = self._read(BinaryReader.u1(self._buffer, self._pos))
                 self.properties['track_descriptors'][i]['casioevents'].append(casioevent)
         #print(self.properties)
         return self._pos
+
+    def _summarize(self, title, result):
+        result.append(title)
+        result.append("*"*len(title))
+        result.append("Number of tracks: {0}".format(len(self.properties['track_descriptors'])))
+        for i in range(len(self.properties['track_descriptors'])):
+            tracktitle = "  track {0}".format(i)
+            result.append(tracktitle)
+            result.append("  " + "-"*(len(tracktitle)-2))
+            result.append(self.properties['track_descriptors'][i]['casioevents'].__repr__().replace("}, ", "},\n"))
+        return result

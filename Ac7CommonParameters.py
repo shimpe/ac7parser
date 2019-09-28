@@ -48,3 +48,12 @@ class Ac7CommonParameters(Ac7Base):
         #print(self.properties['overall_parameters']['elements'])
 
         return self._pos
+
+    def _summarize(self, title, result):
+        result.append(title)
+        result.append("*"*len(title))
+        result.append("stylename: {0}".format(self.properties['stylename']))
+        for el in range(len(self.properties['overall_parameters']['elements'])):
+            title = "Element {0}".format(el)
+            self.properties['overall_parameters']['elements'][el]._summarize(title, result)
+        return result

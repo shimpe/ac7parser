@@ -8,7 +8,9 @@ def get_script_path():
 def main():
     a = Ac7File()
     a.load_file(os.path.join(get_script_path(), "testfiles", "Bossa6.AC7"))
-    a.report()
+    result = []
+    a.summarize(result)
+    print("\n".join(result))
 
 if __name__ == "__main__":
     main()

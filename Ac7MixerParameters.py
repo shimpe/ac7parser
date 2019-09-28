@@ -29,3 +29,12 @@ class Ac7MixerParameters(Ac7Base):
 
         #print(self.properties)
         return self._pos
+
+    def _summarize(self, title, result):
+        result.append(title)
+        result.append("*"*len(title))
+        result.append("Number of parameters: {0}".format(len(self.properties['parameters'])))
+        for i in range(len(self.properties['parameters'])):
+            result.append(self.properties['parameters'][i].__repr__())
+
+        return result

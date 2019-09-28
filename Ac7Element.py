@@ -16,3 +16,12 @@ class Ac7Element(Ac7Base):
         size = self._read(BinaryReader.u2le(self._buffer, self._pos))
         self._pos = Ac7ParamList()._load_parameter_list(self.properties["track_parameters"], self._buffer, self._pos)
         return self._pos
+
+    def _summarize(self, title, result):
+        result.append(title)
+        result.append("*" * len(title))
+        for prop in self.properties['track_parameters']:
+            result.append("Property: {0}".format(prop))
+            result.append("          {0}".format(self.properties['track_parameters'][prop].__repr__()))
+
+        return result

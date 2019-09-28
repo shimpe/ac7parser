@@ -7,3 +7,7 @@ class Ac7Base(object):
         retval, newpos = retval_inc
         self._pos = newpos
         return retval
+
+    def _summarize(self, title, result):
+        result.append("Summary for section {0} not implemented".format(title))
+        return result
