@@ -79,7 +79,7 @@ class Ac7OtherParameters(Ac7Base):
         result.append(title)
         result.append("*"*len(title))
         for i in range(len(self.properties['track_descriptors'])):
-            tracktitle = "  track {0}".format(i)
+            tracktitle = "  track {0}".format(i+1)
             result.append(tracktitle)
             result.append("  " + "-"*(len(tracktitle)-2))
             result.append("  chord table: {0}".format(self.properties['track_descriptors'][i]['chordtable_interpretation']))

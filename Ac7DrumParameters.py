@@ -43,7 +43,7 @@ class Ac7DrumParameters(Ac7Base):
         result.append("*"*len(title))
         result.append("Number of tracks: {0}".format(len(self.properties['track_descriptors'])))
         for i in range(len(self.properties['track_descriptors'])):
-            tracktitle = "  track {0}".format(i)
+            tracktitle = "  track {0}".format(i+1)
             result.append(tracktitle)
             result.append("  " + "-"*(len(tracktitle)-2))
             result.append(self.properties['track_descriptors'][i]['casioevents'].__repr__().replace("}, ", "},\n"))
