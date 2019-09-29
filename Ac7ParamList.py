@@ -55,18 +55,19 @@ class Ac7ParamList(Ac7Base):
                 parm = 'param_partidx'
                 root_el[parm]["parts"] = {}
                 for j in range(length):
+                    root_el[parm]["parts"][j] = {}
                     partid = self._read(BinaryReader.u1(self._buffer, self._pos))
-                    root_el[parm]["parts"]["id"] = partid
+                    root_el[parm]["parts"][j]["id"] = partid
                     partnum = partid & 0xf
-                    root_el[parm]["parts"]["num"] = (partnum if partnum < 0xf else partnum - 0x10) + 1
+                    root_el[parm]["parts"][j]["num"] = (partnum if partnum < 0xf else partnum - 0x10) + 1
                     scale = int((partid & 0xf0) / 0x10)
-                    root_el[parm]["parts"]["scale"] = scale
+                    root_el[parm]["parts"][j]["scale"] = scale
                     if 7 >= scale >= 0:
-                        root_el[parm]["parts"]["type"] = ac7partname[scale]
+                        root_el[parm]["parts"][j]["type"] = ac7partname[scale]
                     elif scale == 0x8:
-                        root_el[parm]["parts"]["type"] = "major"
+                        root_el[parm]["parts"][j]["type"] = "major"
                     elif scale == 0xa:
-                        root_el[parm]["parts"]["type"] = "minor"
+                        root_el[parm]["parts"][j]["type"] = "minor"
             param_id = self._read(BinaryReader.u1(self._buffer, self._pos))
         length_zero = self._read(BinaryReader.u1(self._buffer, self._pos))
         return self._pos

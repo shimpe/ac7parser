@@ -25,6 +25,6 @@ class Ac7Element(Ac7Base):
         result.append("-" * len(longtitle))
         for prop in self.properties['track_parameters']:
             result.append("Property: {0}".format(prop))
-            result.append("          {0}".format(self.properties['track_parameters'][prop].__repr__()))
+            result.append("          {0}".format(self.properties['track_parameters'][prop].__repr__().replace("}, ", "\n")))
 
         return result
