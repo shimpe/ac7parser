@@ -1,0 +1,7 @@
+We try to offer the best possible software, but cannot promise that the software will always be bug-free, available, accurate, complete, and up-to-date.
+
+You agree that when you use ac7parser, you do so at your own risk, and ac7parser or affiliated persons and organizations are not in any way responsible
+for damage or weird behavior inflicted on your instrument. Furthermore, you also agree that you will not attempt to hold us or our data providers liable
+for damage or inaccuracies in the implementation.
+
+If you cannot agree to these terms, then under no circumstance use this software or files created with this software.

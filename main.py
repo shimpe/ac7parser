@@ -7,10 +7,11 @@ def get_script_path():
 
 def main():
     a = Ac7File()
-    a.load_file(os.path.join(get_script_path(), "testfiles", "Bossa6.AC7"))
+    a.load_file(os.path.join(get_script_path(), "testfiles", "TEST0004.AC7"))
     result = []
     a.summarize(result)
     print("\n".join(result))
+    a.write_file(os.path.join(get_script_path(), "testfiles", "output.ac7"), allow_overwrite=True)
 
 if __name__ == "__main__":
     main()

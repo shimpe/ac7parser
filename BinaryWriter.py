@@ -170,5 +170,5 @@ class BinaryWriter(object):
     def str(self, value, encoding, buffer, bookmark=""):
         self.set_bookmark(bookmark, len(buffer))
         formatstr = "{0}s".format(len(value))
-        buffer = buffer + struct.pack(formatstr, value.encode("encoding"))
+        buffer = buffer + struct.pack(formatstr, value.encode(encoding))
         return buffer
