@@ -1,6 +1,7 @@
 from collections import defaultdict
 from BinaryReader import BinaryReader
 from Ac7Base import Ac7Base
+from Ac7CasioEventAnalyzer import Ac7CasioEventAnalyzer
 
 class Ac7DrumParameters(Ac7Base):
     def __init__(self):
@@ -9,6 +10,7 @@ class Ac7DrumParameters(Ac7Base):
             'track_offsets' : [],
             'track_descriptors' : defaultdict(lambda : {})
         }
+        self.analyzer = Ac7CasioEventAnalyzer()
 
     def _load(self, buffer, pos, drum_offset, otherpart_offset):
         self._buffer = buffer
@@ -34,6 +36,7 @@ class Ac7DrumParameters(Ac7Base):
                 casioevent['delta'] = self._read(BinaryReader.u1(self._buffer, self._pos))
                 casioevent['note_or_event'] = self._read(BinaryReader.u1(self._buffer, self._pos))
                 casioevent['vel_or_val'] = self._read(BinaryReader.u1(self._buffer, self._pos))
+                self.analyzer._annotate(casioevent)
                 self.properties['track_descriptors'][i]['casioevents'].append(casioevent)
         #print(self.properties)
         return self._pos

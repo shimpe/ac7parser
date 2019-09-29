@@ -1,6 +1,7 @@
 from collections import defaultdict
 from Ac7Base import Ac7Base
 from BinaryReader import BinaryReader
+from Ac7CasioEventAnalyzer import Ac7CasioEventAnalyzer
 
 class Ac7OtherParameters(Ac7Base):
     def __init__(self):
@@ -10,6 +11,7 @@ class Ac7OtherParameters(Ac7Base):
                            'track_descriptors': defaultdict(lambda: {}),
                            'filesize' : 0
                            }
+        self.analyzer = Ac7CasioEventAnalyzer()
 
     def _load(self, otherpart_offset, filesize, buffer, pos):
         self._buffer = buffer
@@ -49,6 +51,7 @@ class Ac7OtherParameters(Ac7Base):
                 casioevent['delta'] = self._read(BinaryReader.u1(self._buffer, self._pos))
                 casioevent['note_or_event'] = self._read(BinaryReader.u1(self._buffer, self._pos))
                 casioevent['vel_or_val'] = self._read(BinaryReader.u1(self._buffer, self._pos))
+                self.analyzer._annotate(casioevent)
                 self.properties['track_descriptors'][i]['casioevents'].append(casioevent)
 
     def chordtable_to_name(self, chordtable):
@@ -82,7 +85,7 @@ class Ac7OtherParameters(Ac7Base):
             tracktitle = "  track {0}".format(i+1)
             result.append(tracktitle)
             result.append("  " + "-"*(len(tracktitle)-2))
-            result.append("  chord table: {0}".format(self.properties['track_descriptors'][i]['chordtable_interpretation']))
+            result.append("  chord conversion table: {0}".format(self.properties['track_descriptors'][i]['chordtable_interpretation']))
             result.append("  froot: {0}".format(self.properties['track_descriptors'][i]['froot']))
             result.append("  break: {0}".format(self.properties['track_descriptors'][i]['break']))
             result.append("  inversion: {0}".format(self.properties['track_descriptors'][i]['inversion']))
