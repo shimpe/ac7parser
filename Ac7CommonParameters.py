@@ -42,7 +42,7 @@ class Ac7CommonParameters(Ac7Base):
         self._pos = Ac7ParamList()._load_parameter_list(root_el, self._buffer, self._pos)
         self.properties['overall_parameters']['elements'] = []
         for el in range(element_count):
-            self.properties['overall_parameters']['elements'].append(Ac7Element())
+            self.properties['overall_parameters']['elements'].append(Ac7Element(el))
             self._pos = self.properties['overall_parameters']['elements'][-1]._load(self._buffer, self._pos)
 
         #print(self.properties['overall_parameters']['elements'])
@@ -54,6 +54,6 @@ class Ac7CommonParameters(Ac7Base):
         result.append("*"*len(title))
         result.append("stylename: {0}".format(self.properties['stylename']))
         for el in range(len(self.properties['overall_parameters']['elements'])):
-            title = "Element {0}".format(el)
+            title = "Element {0}".format(el+1)
             self.properties['overall_parameters']['elements'][el]._summarize(title, result)
         return result
