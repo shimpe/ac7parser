@@ -46,6 +46,6 @@ class Ac7CasioEventAnalyzer(object):
         if casioevent['note_or_event'] == 185:
             casioevent['annotation'] = 'pitch bend range'
         if casioevent['note_or_event'] == 142:
-            casioevent['annotation'] = 'pitch bend value'
+            casioevent['annotation'] = 'pitch bend value {0}'.format(casioevent['vel_or_val'])
         if casioevent['note_or_event'] == 252:
             casioevent['annotation'] = 'end of track'
