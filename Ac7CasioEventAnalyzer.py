@@ -42,7 +42,9 @@ class Ac7CasioEventAnalyzer(object):
         if casioevent['note_or_event'] == 229:
             casioevent['annotation'] = 'start of track'
         if casioevent['note_or_event'] == 255:
-            casioevent['annotation'] = 'empty track'
+            casioevent['annotation'] = '(sync? end of track?)'
+        if casioevent['note_or_event'] == 181:
+            casioevent['annotation'] = '(maybe global volume?)'
         if casioevent['note_or_event'] == 185:
             casioevent['annotation'] = 'pitch bend range'
         if casioevent['note_or_event'] == 142:

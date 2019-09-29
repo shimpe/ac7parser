@@ -9,7 +9,8 @@ class Ac7Element(Ac7Base):
         super().__init__()
         self.properties = defaultdict(lambda: defaultdict(lambda: {}))
         self.el = el
-        self.el_interpreted = { 0 : "intro", 1: "normal", 2: "variation", 3:"normal fill-in", 4:"variation fill-in", 5: "ending"}[el]
+        self.el_interpreted = { 0 : "intro", 1: "normal", 2: "variation", 3:"normal fill-in", 4:"variation fill-in", 5: "ending",
+                                6 : "intro 2",  7 : "ending 2", 8 : "fill 2", 9: "fill 4" }[el]
 
     def _load(self, buffer, pos):
         self._buffer = buffer
@@ -26,5 +27,4 @@ class Ac7Element(Ac7Base):
         for prop in self.properties['track_parameters']:
             result.append("Property: {0}".format(prop))
             result.append("          {0}".format(self.properties['track_parameters'][prop].__repr__().replace("}, ", "\n")))
-
         return result
