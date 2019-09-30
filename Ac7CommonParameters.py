@@ -26,17 +26,17 @@ class Ac7CommonParameters(Ac7Base):
         # read magic number
         commontag = self._read(BinaryReader.magic(b'\xff\xff\xff\x07', None, self._buffer, self._pos))
         # read size
-        size = self._read(BinaryReader.u2le(self._buffer, self._pos))
+        size = self._read(BinaryReader.read("u2le", self._buffer, self._pos))
         # read element count
-        element_count = self._read(BinaryReader.u1(self._buffer, self._pos))
+        element_count = self._read(BinaryReader.read("u1", self._buffer, self._pos))
         # read element offsets
         for i in range(element_count):
-            offset = self._read(BinaryReader.u4le(self._buffer, self._pos))
+            offset = self._read(BinaryReader.read("u4le", self._buffer, self._pos))
             self.properties['element_offsets'].append(offset)
         # read dummy byte (end of offsets? seems to be always 0x00)
-        self._read(BinaryReader.u1(self._buffer, self._pos))
+        self._read(BinaryReader.read("u1", self._buffer, self._pos))
         # read stylename length
-        stylenamelength = self._read(BinaryReader.u1(self._buffer, self._pos))
+        stylenamelength = self._read(BinaryReader.read("u1", self._buffer, self._pos))
         self.properties['stylename'] = self._read(BinaryReader.str(stylenamelength, "ascii", self._buffer, self._pos))
         # repeat reading parameters until no more params is read
         self.properties['overall_parameters']['common'] = defaultdict(lambda:{})

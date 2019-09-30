@@ -25,7 +25,7 @@ class Ac7File(Ac7Base):
 
     def _load_header(self):
         magicstr = self._read(BinaryReader.magic("AC07", "ascii", self._buffer, self._pos))
-        self.properties['filesize'] = self._read(BinaryReader.u4le(self._buffer, self._pos))
+        self.properties['filesize'] = self._read(BinaryReader.read("u4le", self._buffer, self._pos))
 
     def _write_header(self, buffer):
         buffer = self.writer.str("AC07", "ascii", buffer)
@@ -33,28 +33,28 @@ class Ac7File(Ac7Base):
         return buffer
 
     def _load_commonoffset(self):
-        self.properties['common_offset'] = self._read(BinaryReader.u4le(self._buffer, self._pos))
+        self.properties['common_offset'] = self._read(BinaryReader.read("u4le", self._buffer, self._pos))
 
     def _write_commonoffset(self, buffer):
         buffer = self.writer.u4le(0, buffer, "commonoffset")
         return buffer
 
     def _load_mixeroffset(self):
-        self.properties['mixer_offset'] = self._read(BinaryReader.u4le(self._buffer, self._pos))
+        self.properties['mixer_offset'] = self._read(BinaryReader.read("u4le", self._buffer, self._pos))
 
     def _write_mixeroffset(self, buffer):
         buffer = self.writer.u4le(0, buffer, "mixeroffset")
         return buffer
 
     def _load_drumoffset(self):
-        self.properties['drum_offset'] = self._read(BinaryReader.u4le(self._buffer, self._pos))
+        self.properties['drum_offset'] = self._read(BinaryReader.read("u4le", self._buffer, self._pos))
 
     def _write_drumoffset(self, buffer):
         buffer = self.writer.u4le(0, buffer, "drumoffset")
         return buffer
 
     def _load_otherpartoffset(self):
-        self.properties['otherpart_offset'] = self._read(BinaryReader.u4le(self._buffer, self._pos))
+        self.properties['otherpart_offset'] = self._read(BinaryReader.read("u4le", self._buffer, self._pos))
 
     def _write_otherpartoffset(self, buffer):
         buffer = self.writer.u4le(0, buffer, "otheroffset")
@@ -62,7 +62,7 @@ class Ac7File(Ac7Base):
 
     def _load_reservedbytes(self):
         # throw way the result
-        self._read(BinaryReader.u4le(self._buffer, self._pos))
+        self._read(BinaryReader.read("u4le", self._buffer, self._pos))
 
     def _write_reserved(self, buffer):
         buffer = self.writer.u4le(0xffffffff, buffer)

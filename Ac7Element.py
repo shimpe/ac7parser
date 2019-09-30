@@ -16,7 +16,7 @@ class Ac7Element(Ac7Base):
         self._buffer = buffer
         self._pos = pos
         magic = self._read(BinaryReader.magic("ELMT", "ascii", self._buffer, self._pos))
-        size = self._read(BinaryReader.u2le(self._buffer, self._pos))
+        size = self._read(BinaryReader.read("u2le", self._buffer, self._pos))
         self._pos = Ac7ParamList()._load_parameter_list(self.properties["track_parameters"], self._buffer, self._pos)
         return self._pos
 

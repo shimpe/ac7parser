@@ -24,16 +24,16 @@ class Ac7OtherParameters(Ac7Base):
                 self._pos, otherpart_offset)
         self._pos = otherpart_offset
         magic = self._read(BinaryReader.magic("OTHR", "ascii", self._buffer, self._pos))
-        size = self._read(BinaryReader.u4le(self._buffer, self._pos))
-        trackcount = self._read(BinaryReader.u2le(self._buffer, self._pos))
+        size = self._read(BinaryReader.read("u4le", self._buffer, self._pos))
+        trackcount = self._read(BinaryReader.read("u2le", self._buffer, self._pos))
         self.properties['track_offsets'] = {}
         for i in range(trackcount):
-            self.properties['track_offsets'][i] = self._read(BinaryReader.u4le(self._buffer, self._pos))
+            self.properties['track_offsets'][i] = self._read(BinaryReader.read("u4le", self._buffer, self._pos))
         for i in range(trackcount):
-            self.properties['track_descriptors'][i]['chordtable'] = self._read(BinaryReader.u1(self._buffer, self._pos))
+            self.properties['track_descriptors'][i]['chordtable'] = self._read(BinaryReader.read("u1", self._buffer, self._pos))
             self.properties['track_descriptors'][i]['chordtable_interpretation'] = self.chordtable_to_name(self.properties['track_descriptors'][i]['chordtable'])
-            self.properties['track_descriptors'][i]['chordparam'] = self._read(BinaryReader.u1(self._buffer, self._pos))
-            self.properties['track_descriptors'][i]['roothelper'] = self._read(BinaryReader.u1(self._buffer, self._pos))
+            self.properties['track_descriptors'][i]['chordparam'] = self._read(BinaryReader.read("u1", self._buffer, self._pos))
+            self.properties['track_descriptors'][i]['roothelper'] = self._read(BinaryReader.read("u1", self._buffer, self._pos))
             self.properties['track_descriptors'][i]['froot'] = int(self.properties['track_descriptors'][i]['roothelper']) >> 3
             self.properties['track_descriptors'][i]['break'] = self.properties['track_descriptors'][i]['chordparam']  >> 4
             self.properties['track_descriptors'][i]['inversion'] = int(self.properties['track_descriptors'][i]['chordparam'] & 0xf)
@@ -48,9 +48,9 @@ class Ac7OtherParameters(Ac7Base):
             no_of_events = int(no_of_events_float)
             for j in range(no_of_events):
                 casioevent = {}
-                casioevent['delta'] = self._read(BinaryReader.u1(self._buffer, self._pos))
-                casioevent['note_or_event'] = self._read(BinaryReader.u1(self._buffer, self._pos))
-                casioevent['vel_or_val'] = self._read(BinaryReader.u1(self._buffer, self._pos))
+                casioevent['delta'] = self._read(BinaryReader.read("u1", self._buffer, self._pos))
+                casioevent['note_or_event'] = self._read(BinaryReader.read("u1", self._buffer, self._pos))
+                casioevent['vel_or_val'] = self._read(BinaryReader.read("u1", self._buffer, self._pos))
                 self.analyzer._annotate(casioevent)
                 self.properties['track_descriptors'][i]['casioevents'].append(casioevent)
 

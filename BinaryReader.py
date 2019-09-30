@@ -5,162 +5,77 @@ class BinaryReader(object):
         pass
 
     @staticmethod
-    def u1(buffer, pos):
-        value = struct.unpack_from("B", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("B")
-
-    @staticmethod
-    def s1(buffer, pos):
-        value = struct.unpack_from("b", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("b")
-
-    @staticmethod
-    def u2le(buffer, pos):
-        value = struct.unpack_from("<H", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("H")
-
-    @staticmethod
-    def s2le(buffer, pos):
-        value = struct.unpack_from("<h", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("h")
-
-    @staticmethod
-    def u4le(buffer, pos):
-        value = struct.unpack_from("<I", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("I")
-
-    @staticmethod
-    def s4le(buffer, pos):
-        value = struct.unpack_from("<i", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("i")
-
-    @staticmethod
-    def u8le(buffer, pos):
-        value = struct.unpack_from("<Q", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("Q")
-
-    @staticmethod
-    def s8le(buffer, pos):
-        value = struct.unpack_from("<q", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("q")
-
-    @staticmethod
-    def f2le(buffer, pos):
-        value = struct.unpack_from("<e", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("e")
-
-    @staticmethod
-    def f4le(buffer, pos):
-        value = struct.unpack_from("<f", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("f")
-
-    @staticmethod
-    def f8le(buffer, pos):
-        value = struct.unpack_from("<d", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("d")
+    def read(format, buffer, pos):
+        format_to_structfmt = {
+            "u1" : "B", "s1" : "b", "u2le" : "<H", "s2le" : "<h",
+            "u4le": "<I", "s4le" : "<i", "u8le" : "<Q", "s8le" : "<q",
+            "f2le" : "<e", "f4le" : "<f", "f8le" : "<d",
+            "u2be" : ">H", "s2be" : ">h", "u2be" : ">I",
+            "s4be" : ">i", "u8be" : ">Q", "s8be" : ">q",
+            "f2be" : ">e", "f4be" : ">f", "f8be" : ">d"
+        }
+        fmt = format_to_structfmt[format]
+        fmt_cs = fmt[-1]
+        value = struct.unpack_from(fmt, buffer[pos:], 0)[0]
+        return value, pos+struct.calcsize(fmt_cs)
 
     @staticmethod
     def udynle(size, buffer, pos):
         lookup = {
-            1 : BinaryReader.u1,
-            2 : BinaryReader.u2le,
-            4 : BinaryReader.u4le,
-            8 : BinaryReader.u8le,
+            1 : "u1",
+            2 : "u2le",
+            4 : "u4le",
+            8 : "u8le",
         }
-        return lookup[size](buffer, pos)
+        return BinaryReader.read(lookup[size], buffer, pos)
 
     @staticmethod
     def sdynle(size, buffer, pos):
         lookup = {
-            1: BinaryReader.s1,
-            2: BinaryReader.s2le,
-            4: BinaryReader.s4le,
-            8: BinaryReader.s8le,
+            1: "s1",
+            2: "s2le",
+            4: "s4le",
+            8: "s8le",
         }
-        return lookup[size](buffer, pos)
+        return BinaryReader.read(lookup[size], buffer, pos)
 
     @staticmethod
     def fdynle(size, buffer, pos):
         lookup = {
-            2: BinaryReader.f2le,
-            4: BinaryReader.f4le,
-            8: BinaryReader.f8le,
+            2: "f2le",
+            4: "f4le",
+            8: "f8le",
         }
-        return lookup[size](buffer, pos)
-
-    @staticmethod
-    def u2be(buffer, pos):
-        value = struct.unpack_from(">H", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("H")
-
-    @staticmethod
-    def s2be(buffer, pos):
-        value = struct.unpack_from(">h", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("h")
-
-    @staticmethod
-    def u4be(buffer, pos):
-        value = struct.unpack_from(">I", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("I")
-
-    @staticmethod
-    def s4be(buffer, pos):
-        value = struct.unpack_from(">i", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("i")
-
-    @staticmethod
-    def u8be(buffer, pos):
-        value = struct.unpack_from(">Q", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("Q")
-
-    @staticmethod
-    def s8be(buffer, pos):
-        value = struct.unpack_from(">q", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("q")
-
-    @staticmethod
-    def f2be(buffer, pos):
-        value = struct.unpack_from(">e", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("e")
+        return BinaryReader.read(lookup[size], buffer, pos)
 
     @staticmethod
     def udynbe(size, buffer, pos):
         lookup = {
-            1 : BinaryReader.u1,
-            2 : BinaryReader.u2be,
-            4 : BinaryReader.u4be,
-            8 : BinaryReader.u8be,
+            1 : "u1",
+            2 : "u2be",
+            4 : "u4be",
+            8 : "u8be",
         }
-        return lookup[size](buffer, pos)
+        return BinaryReader.read(lookup[size], buffer, pos)
 
     @staticmethod
     def sdynbe(size, buffer, pos):
         lookup = {
-            1: BinaryReader.s1,
-            2: BinaryReader.s2be,
-            4: BinaryReader.s4be,
-            8: BinaryReader.s8be,
+            1: "s1",
+            2: "s2be",
+            4: "s4be",
+            8: "s8be",
         }
-        return lookup[size](buffer, pos)
+        return BinaryReader.read(lookup[size], buffer, pos)
 
     @staticmethod
     def fdynbe(size, buffer, pos):
         lookup = {
-            2: BinaryReader.f2be,
-            4: BinaryReader.f4be,
-            8: BinaryReader.f8be,
+            2: "f2be",
+            4: "f4be",
+            8: "f8be",
         }
-        return lookup[size](buffer, pos)
-
-    @staticmethod
-    def f4be(buffer, pos):
-        value = struct.unpack_from(">f", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("f")
-
-    @staticmethod
-    def f8be(buffer, pos):
-        value = struct.unpack_from(">d", buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize("d")
+        return BinaryReader.read(lookup[size], buffer, pos)
 
     @staticmethod
     def str(length, encoding, buffer, pos):
