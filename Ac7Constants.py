@@ -17,3 +17,16 @@ ac7partname = {
     6 : "Chord 4",
     7 : "Chord 5",
 }
+
+ac7partid = {
+    "Percussion" : 0,
+    "Drums" : 1,
+    "Bass" : 2,
+    "Chord 1" : 3,
+    "Chord 2" : 4,
+    "Chord 3" : 5,
+    "Chord 4" : 6,
+    "Chord 5" : 7,
+    "major" : 8,
+    "minor" : 0xa,
+}

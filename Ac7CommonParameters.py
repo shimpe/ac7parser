@@ -67,7 +67,7 @@ class Ac7CommonParameters(Ac7Base):
         stylename = self.sanitize_stylename(self.properties['stylename'])
         buffer = writer.u1(len(stylename), buffer)
         buffer = writer.str(stylename, "ascii", buffer)
-        root_el = self.properties['overall_parameters']
+        root_el = self.properties['overall_parameters']['common']
         buffer = Ac7ParamList()._write_parameter_list(root_el, writer, buffer)
         # fill in the bookmarks
         writer.set_bookmark("end_of_common_offset", len(buffer))
