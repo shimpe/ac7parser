@@ -57,15 +57,15 @@ class Ac7CommonParameters(Ac7Base):
         return newstylename
 
     def _write(self, writer, buffer):
-        buffer = writer.u4le(0x7fffffff, buffer, "start_of_commonparams")
-        buffer = writer.u2le(0, buffer, "common_size")
+        buffer = writer.write("u4le", 0x7fffffff, buffer, "start_of_commonparams")
+        buffer = writer.write("u2le", 0, buffer, "common_size")
         element_count = len(self.properties['overall_parameters']['elements'])
-        buffer = writer.u1(element_count, buffer)
+        buffer = writer.write("u1", element_count, buffer)
         for i in range(element_count):
-            buffer = writer.u4le(0, buffer, "el_offset{0}".format(i))
-        buffer = writer.u1(0, buffer)
+            buffer = writer.write("u4le", 0, buffer, "el_offset{0}".format(i))
+        buffer = writer.write("u1", 0, buffer)
         stylename = self.sanitize_stylename(self.properties['stylename'])
-        buffer = writer.u1(len(stylename), buffer)
+        buffer = writer.write("u1", len(stylename), buffer)
         buffer = writer.str(stylename, "ascii", buffer)
         root_el = self.properties['overall_parameters']['common']
         buffer = Ac7ParamList()._write_parameter_list(root_el, writer, buffer)

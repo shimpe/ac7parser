@@ -29,35 +29,35 @@ class Ac7File(Ac7Base):
 
     def _write_header(self, buffer):
         buffer = self.writer.str("AC07", "ascii", buffer)
-        buffer = self.writer.u4le(0, buffer, "filesize") # bookmark so we can fill it in later
+        buffer = self.writer.write("u4le", 0, buffer, "filesize") # bookmark so we can fill it in later
         return buffer
 
     def _load_commonoffset(self):
         self.properties['common_offset'] = self._read(BinaryReader.read("u4le", self._buffer, self._pos))
 
     def _write_commonoffset(self, buffer):
-        buffer = self.writer.u4le(0, buffer, "commonoffset")
+        buffer = self.writer.write("u4le", 0, buffer, "commonoffset")
         return buffer
 
     def _load_mixeroffset(self):
         self.properties['mixer_offset'] = self._read(BinaryReader.read("u4le", self._buffer, self._pos))
 
     def _write_mixeroffset(self, buffer):
-        buffer = self.writer.u4le(0, buffer, "mixeroffset")
+        buffer = self.writer.write("u4le", 0, buffer, "mixeroffset")
         return buffer
 
     def _load_drumoffset(self):
         self.properties['drum_offset'] = self._read(BinaryReader.read("u4le", self._buffer, self._pos))
 
     def _write_drumoffset(self, buffer):
-        buffer = self.writer.u4le(0, buffer, "drumoffset")
+        buffer = self.writer.write("u4le", 0, buffer, "drumoffset")
         return buffer
 
     def _load_otherpartoffset(self):
         self.properties['otherpart_offset'] = self._read(BinaryReader.read("u4le", self._buffer, self._pos))
 
     def _write_otherpartoffset(self, buffer):
-        buffer = self.writer.u4le(0, buffer, "otheroffset")
+        buffer = self.writer.write("u4le", 0, buffer, "otheroffset")
         return buffer
 
     def _load_reservedbytes(self):
@@ -65,7 +65,7 @@ class Ac7File(Ac7Base):
         self._read(BinaryReader.read("u4le", self._buffer, self._pos))
 
     def _write_reserved(self, buffer):
-        buffer = self.writer.u4le(0xffffffff, buffer)
+        buffer = self.writer.write("u4le", 0xffffffff, buffer)
         return buffer
 
     def _load_commonmem(self):
