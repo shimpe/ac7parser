@@ -80,6 +80,10 @@ class Ac7File(Ac7Base):
         self._pos = self.properties['mixer_parameters']._load(self._buffer, self._pos,
                                                                self.properties['mixer_offset'])
 
+    def _write_mixermem(self, buffer):
+        buffer = self.properties['mixer_parameters']  ._write(self.writer, buffer)
+        return buffer
+
     def _load_drumsmem(self):
         self._pos = self.properties['drum_parameters']._load(self._buffer, self._pos,
                                                              self.properties['drum_offset'],
@@ -116,20 +120,17 @@ class Ac7File(Ac7Base):
             buffer = self._write_otherpartoffset(buffer)
             buffer = self._write_reserved(buffer)
             buffer = self._write_commonmem(buffer)
+            buffer = self._write_mixermem(buffer)
 
             # fill in the bookmarks
-            start_of_commonparams = self.writer.get_bookmark_position("start_of_common")
-            commonparams = self.writer.get_bookmark_position("commonoffset")
-            if commonparams is None or start_of_commonparams is None:
-                print("Error: bookmark commonoffset/start_of_commonparams is not resolved.")
-            else:
-                struct.pack_into("<I", buffer, commonparams, start_of_commonparams)
+            start_of_commonparams = self.writer.get_bookmark_position("start_of_commonparams")
+            buffer = self.writer.write_into("commonoffset", start_of_commonparams, buffer)
 
-            filesize_pos = self.writer.get_bookmark_position("filesize")
-            struct.pack_into("<I", buffer, filesize_pos, len(buffer))
+            start_of_mixerparams = self.writer.get_bookmark_position("start_of_mixerparam")
+            buffer = self.writer.write_into("mixeroffset", start_of_mixerparams, buffer)
+
+            buffer = self.writer.write_into("filesize", len(buffer), buffer)
             f.write(buffer)
-
-
 
     def summarize(self, result):
         result.append("filesize: {0}".format(self.properties['filesize']))

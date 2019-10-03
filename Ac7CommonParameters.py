@@ -69,14 +69,13 @@ class Ac7CommonParameters(Ac7Base):
         buffer = writer.str(stylename, "ascii", buffer)
         root_el = self.properties['overall_parameters']['common']
         buffer = Ac7ParamList()._write_parameter_list(root_el, writer, buffer)
+
         # fill in the bookmarks
-        writer.set_bookmark("end_of_common_offset", len(buffer))
+        writer.set_bookmark("end_of_common_offset", len(buffer), "u1")
         size = writer.get_bookmark_position("end_of_common_offset") - writer.get_bookmark_position("start_of_commonparams")
-        size_location = writer.get_bookmark_position("common_size")
-        struct.pack_into("<H", buffer, size_location, size)
+        buffer = writer.write_into("common_size", size, buffer)
+
         return buffer
-
-
 
     def _summarize(self, title, result):
         result.append(title)

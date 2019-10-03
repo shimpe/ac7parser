@@ -30,6 +30,25 @@ class Ac7MixerParameters(Ac7Base):
         #print(self.properties)
         return self._pos
 
+    def _write(self, writer, buffer):
+        buffer = writer.str("MIXR", "ascii", buffer, "start_of_mixerparam")
+        buffer = writer.write("u4le", 0, buffer, "mixer_size")
+        paramcount = len(self.properties['parameters'])
+        buffer = writer.write("u2le", paramcount, buffer, "start_of_mixersize")
+        for i in range(paramcount):
+            buffer = writer.write("u4le", self.properties['parameter_offsets'][i], buffer)
+        for i in range(paramcount):
+            buffer = writer.write("u1", self.properties['parameters'][i]['tone'], buffer)
+            buffer = writer.write("u1", self.properties['parameters'][i]['bank'], buffer)
+            buffer = writer.write("u1", self.properties['parameters'][i]['volume'], buffer)
+            buffer = writer.write("u1", self.properties['parameters'][i]['pan'], buffer)
+            buffer = writer.write("u1", self.properties['parameters'][i]['reverb'], buffer)
+            buffer = writer.write("u1", self.properties['parameters'][i]['chorus'], buffer)
+
+        mixersize = len(buffer) - writer.get_bookmark_position("start_of_mixersize")
+        buffer = writer.write_into("mixer_size", mixersize, buffer)
+        return buffer
+
     def _summarize(self, title, result):
         result.append(title)
         result.append("*"*len(title))
