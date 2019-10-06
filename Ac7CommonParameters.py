@@ -39,7 +39,7 @@ class Ac7CommonParameters(Ac7Base):
         stylenamelength = self._read(BinaryReader.read("u1", self._buffer, self._pos))
         self.properties['stylename'] = self._read(BinaryReader.str(stylenamelength, "ascii", self._buffer, self._pos))
         # repeat reading parameters until no more params is read
-        self.properties['overall_parameters']['common'] = defaultdict(lambda:{})
+        self.properties['overall_parameters']['common'] = []
         root_el = self.properties['overall_parameters']['common']
         self._pos = Ac7ParamList()._load_parameter_list(root_el, self._buffer, self._pos)
         self.properties['overall_parameters']['elements'] = []
@@ -85,7 +85,7 @@ class Ac7CommonParameters(Ac7Base):
         result.append(title)
         result.append("*"*len(title))
         result.append("stylename: {0}".format(self.properties['stylename']))
-        result.append("Overall parameters: {0}".format(self.properties['overall_parameters']['common'].items().__repr__()))
+        result.append("Overall parameters: {0}".format(self.properties['overall_parameters']['common'].__repr__()))
         for el in range(len(self.properties['overall_parameters']['elements'])):
             title = "Element {0}".format(el+1)
             self.properties['overall_parameters']['elements'][el]._summarize(title, result)

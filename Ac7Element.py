@@ -17,6 +17,7 @@ class Ac7Element(Ac7Base):
         self._pos = pos
         magic = self._read(BinaryReader.magic("ELMT", "ascii", self._buffer, self._pos))
         size = self._read(BinaryReader.read("u2le", self._buffer, self._pos))
+        self.properties["track_parameters"] = []
         self._pos = Ac7ParamList()._load_parameter_list(self.properties["track_parameters"], self._buffer, self._pos)
         return self._pos
 
@@ -33,6 +34,6 @@ class Ac7Element(Ac7Base):
         result.append(longtitle)
         result.append("-" * len(longtitle))
         for prop in self.properties['track_parameters']:
-            result.append("Property: {0}".format(prop))
-            result.append("          {0}".format(self.properties['track_parameters'][prop].__repr__().replace("}, ", "\n")))
+            result.append("Property: {0}".format(prop['parm']))
+            result.append("          {0}".format(prop.__repr__().replace("}, ", "\n")))
         return result
