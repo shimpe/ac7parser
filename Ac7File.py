@@ -88,8 +88,18 @@ class Ac7File(Ac7Base):
         self._pos = self.properties['drum_parameters']._load(self._buffer, self._pos,
                                                              self.properties['drum_offset'],
                                                              self.properties['otherpart_offset'])
+    def _write_drumsmem(self, buffer):
+        buffer = self.properties['drum_parameters']._write(self.writer, buffer)
+        return buffer
+
     def _load_othermem(self):
-        self._pos = self.properties['other_parameters']._load(self.properties['otherpart_offset'], self.properties['filesize'], self._buffer, self._pos)
+        self._pos = self.properties['other_parameters']._load(self.properties['otherpart_offset'],
+                                                              self.properties['filesize'],
+                                                              self._buffer, self._pos)
+
+    def _write_othermem(self, buffer):
+        buffer = self.properties['other_parameters']._write(self.writer, buffer)
+        return buffer
 
     def load_file(self, filename):
         with open(filename, "rb") as f:
@@ -106,7 +116,7 @@ class Ac7File(Ac7Base):
             self._load_drumsmem()
             self._load_othermem()
 
-    def write_file(self, filename, allow_overwrite=False):
+    def write_file(self, filename, allow_overwrite=False, report_unresolved=False):
         if not allow_overwrite and os.path.exists(filename):
             print("Error! I refuse to overwrite existing file {0}. Please specify a different filename.".format(filename))
             return
@@ -121,6 +131,8 @@ class Ac7File(Ac7Base):
             buffer = self._write_reserved(buffer)
             buffer = self._write_commonmem(buffer)
             buffer = self._write_mixermem(buffer)
+            buffer = self._write_drumsmem(buffer)
+            buffer = self._write_othermem(buffer)
 
             # fill in the bookmarks
             start_of_commonparams = self.writer.get_bookmark_position("start_of_commonparams")
@@ -129,7 +141,24 @@ class Ac7File(Ac7Base):
             start_of_mixerparams = self.writer.get_bookmark_position("start_of_mixerparam")
             buffer = self.writer.write_into("mixeroffset", start_of_mixerparams, buffer)
 
+            start_of_drumparams = self.writer.get_bookmark_position("start_of_drumsparam")
+            buffer = self.writer.write_into("drumoffset", start_of_drumparams, buffer)
+
+            start_of_otherparams = self.writer.get_bookmark_position("start_of_otherparams")
+            buffer = self.writer.write_into("otheroffset", start_of_otherparams, buffer)
+
             buffer = self.writer.write_into("filesize", len(buffer), buffer)
+
+            if report_unresolved:
+                unresolved = list(self.writer.get_unresolved())
+                unresolved.sort()
+                if unresolved:
+                    print("***")
+                    print("Warning: the following bookmarks were unresolved:\n{0}".format("\n".join(unresolved)))
+                    print("***")
+                else:
+                    print("No unresolved bookmarks")
+
             f.write(buffer)
 
     def summarize(self, result):

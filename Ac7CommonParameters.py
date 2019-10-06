@@ -57,23 +57,27 @@ class Ac7CommonParameters(Ac7Base):
         return newstylename
 
     def _write(self, writer, buffer):
-        buffer = writer.write("u4le", 0x7fffffff, buffer, "start_of_commonparams")
+        buffer = writer.write("u4le", 0x07ffffff, buffer, "start_of_commonparams")
         buffer = writer.write("u2le", 0, buffer, "common_size")
         element_count = len(self.properties['overall_parameters']['elements'])
         buffer = writer.write("u1", element_count, buffer)
         for i in range(element_count):
-            buffer = writer.write("u4le", 0, buffer, "el_offset{0}".format(i))
+            buffer = writer.write("u4le", 0, buffer, "common_el_offset{0}".format(i))
         buffer = writer.write("u1", 0, buffer)
         stylename = self.sanitize_stylename(self.properties['stylename'])
         buffer = writer.write("u1", len(stylename), buffer)
         buffer = writer.str(stylename, "ascii", buffer)
         root_el = self.properties['overall_parameters']['common']
         buffer = Ac7ParamList()._write_parameter_list(root_el, writer, buffer)
+        for i in range(element_count):
+            buffer = self.properties['overall_parameters']['elements'][i]._write(buffer, writer, "common_el_offset", i)
 
         # fill in the bookmarks
         writer.set_bookmark("end_of_common_offset", len(buffer), "u1")
         size = writer.get_bookmark_position("end_of_common_offset") - writer.get_bookmark_position("start_of_commonparams")
         buffer = writer.write_into("common_size", size, buffer)
+        for i in range(element_count):
+            buffer = writer.write_into("common_el_offset{0}".format(i), writer.get_bookmark_position("start_of_common_el_offset{0}".format(i)), buffer)
 
         return buffer
 

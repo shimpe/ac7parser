@@ -3,6 +3,7 @@ import struct
 class BinaryWriter(object):
     def __init__(self):
         self.bookmarks = {}
+        self.unresolved = set()
 
     def get_bookmark_position(self, bookmark):
         if bookmark in self.bookmarks:
@@ -31,6 +32,7 @@ class BinaryWriter(object):
             if bookmark in self.bookmarks:
                 print("Warning: overwriting existing bookmark {0}. This may cause trouble later.".format(bookmark))
             self.bookmarks[bookmark] = (position, fmt)
+            self.unresolved.add(bookmark)
 
     def write(self, format, value, buffer, bookmark=""):
         fmt = {
@@ -49,6 +51,8 @@ class BinaryWriter(object):
         pos = self.get_bookmark_position(bookmark)
         fmt = self.get_bookmark_fmt(bookmark)
         struct.pack_into(fmt, buffer, pos, value)
+        print(self.unresolved)
+        self.unresolved.remove(bookmark)
         return buffer
 
     def udynle(self, size, value, buffer, bookmark=""):
@@ -108,3 +112,6 @@ class BinaryWriter(object):
         self.set_bookmark(bookmark, len(buffer), formatstr)
         buffer = buffer + struct.pack(formatstr, value.encode(encoding))
         return buffer
+
+    def get_unresolved(self):
+        return self.unresolved

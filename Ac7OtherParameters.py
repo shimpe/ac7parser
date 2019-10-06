@@ -54,6 +54,33 @@ class Ac7OtherParameters(Ac7Base):
                 self.analyzer._annotate(casioevent)
                 self.properties['track_descriptors'][i]['casioevents'].append(casioevent)
 
+    def _write(self, writer, buffer):
+        buffer = writer.str("OTHR", "ascii", buffer, "start_of_otherparams")
+        buffer = writer.write("u4le", 0, buffer, "otherparam_size")
+        trackcount = len(self.properties['track_descriptors'])
+        buffer = writer.write("u2le", trackcount, buffer)
+        for i in range(trackcount):
+            buffer = writer.write("u4le", 0, buffer, "other_offset{0}".format(i))
+        for i in range(trackcount):
+            buffer = writer.write("u1", self.properties['track_descriptors'][i]['chordtable'], buffer, "start_of_otheroffset{0}".format(i))
+            buffer = writer.write("u1", self.properties['track_descriptors'][i]['chordparam'], buffer)
+            buffer = writer.write("u1", self.properties['track_descriptors'][i]['roothelper'], buffer)
+            casioevents = self.properties['track_descriptors'][i]['casioevents']
+            no_of_events = len(casioevents)
+            for j in range(no_of_events):
+                buffer = writer.write("u1", casioevents[j]['delta'], buffer)
+                buffer = writer.write("u1", casioevents[j]['note_or_event'], buffer)
+                buffer = writer.write("u1", casioevents[j]['vel_or_val'], buffer)
+
+        # fill in bookmarks
+        for i in range(trackcount):
+            value = writer.get_bookmark_position("start_of_otheroffset{0}".format(i))
+            buffer = writer.write_into("other_offset{0}".format(i), value, buffer)
+        buffer = writer.write_into("otherparam_size",
+                                   len(buffer)-writer.get_bookmark_position("start_of_otherparams"),
+                                   buffer)
+        return buffer
+
     def chordtable_to_name(self, chordtable):
         table = {
             0 : "bass",
@@ -86,10 +113,9 @@ class Ac7OtherParameters(Ac7Base):
             result.append(tracktitle)
             result.append("  " + "-"*(len(tracktitle)-2))
             result.append("  chord conversion table: {0}".format(self.properties['track_descriptors'][i]['chordtable_interpretation']))
-            result.append("  froot: {0}".format(self.properties['track_descriptors'][i]['froot']))
+            result.append("  force root: {0}".format(self.properties['track_descriptors'][i]['froot']))
             result.append("  break: {0}".format(self.properties['track_descriptors'][i]['break']))
             result.append("  inversion: {0}".format(self.properties['track_descriptors'][i]['inversion']))
             result.append("  retrigger: {0}".format(self.properties['track_descriptors'][i]['retrigger']))
             result.append("  notes: {0}".format(self.properties['track_descriptors'][i]['casioevents'].__repr__().replace("}, ", "},\n")))
-
         return result

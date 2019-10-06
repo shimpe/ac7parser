@@ -11,7 +11,7 @@ def main():
     result = []
     a.summarize(result)
     print("\n".join(result))
-    a.write_file(os.path.join(get_script_path(), "testfiles", "output.ac7"), allow_overwrite=True)
+    a.write_file(os.path.join(get_script_path(), "testfiles", "output.ac7"), allow_overwrite=True, report_unresolved=True)
 
 if __name__ == "__main__":
     main()

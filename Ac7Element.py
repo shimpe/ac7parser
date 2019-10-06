@@ -20,6 +20,14 @@ class Ac7Element(Ac7Base):
         self._pos = Ac7ParamList()._load_parameter_list(self.properties["track_parameters"], self._buffer, self._pos)
         return self._pos
 
+    def _write(self, buffer, writer, index_prefix, index):
+        buffer = writer.str("ELMT", "ascii", buffer, "start_of_{0}{1}".format(index_prefix, index))
+        buffer = writer.write("u2le", 0 , buffer, "{0}_offset_{1}".format(index_prefix, index)) # size
+        buffer = Ac7ParamList()._write_parameter_list(self.properties["track_parameters"], writer, buffer)
+        end_of_el = len(buffer)
+        buffer = writer.write_into("{0}_offset_{1}".format(index_prefix, index), end_of_el, buffer)
+        return buffer
+
     def _summarize(self, title, result):
         longtitle = title + " ({0})".format(self.el_interpreted)
         result.append(longtitle)
