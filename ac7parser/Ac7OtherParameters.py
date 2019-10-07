@@ -1,7 +1,7 @@
 from collections import defaultdict
-from Ac7Base import Ac7Base
-from BinaryReader import BinaryReader
-from Ac7CasioEventAnalyzer import Ac7CasioEventAnalyzer
+from .Ac7Base import Ac7Base
+from .BinaryReader import BinaryReader
+from .Ac7CasioEventAnalyzer import Ac7CasioEventAnalyzer
 
 class Ac7OtherParameters(Ac7Base):
     def __init__(self):

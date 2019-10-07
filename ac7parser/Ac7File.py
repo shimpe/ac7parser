@@ -1,12 +1,12 @@
 import os
 import struct
-from BinaryReader import BinaryReader
-from BinaryWriter import BinaryWriter
-from Ac7Base import Ac7Base
-from Ac7CommonParameters import Ac7CommonParameters
-from Ac7MixerParameters import Ac7MixerParameters
-from Ac7DrumParameters import Ac7DrumParameters
-from Ac7OtherParameters import Ac7OtherParameters
+from .BinaryReader import BinaryReader
+from .BinaryWriter import BinaryWriter
+from .Ac7Base import Ac7Base
+from .Ac7CommonParameters import Ac7CommonParameters
+from .Ac7MixerParameters import Ac7MixerParameters
+from .Ac7DrumParameters import Ac7DrumParameters
+from .Ac7OtherParameters import Ac7OtherParameters
 
 class Ac7File(Ac7Base):
     def __init__(self):
@@ -163,13 +163,8 @@ class Ac7File(Ac7Base):
 
     def summarize(self, result):
         result.append("filesize: {0}".format(self.properties['filesize']))
-        #result.append("common parameter section offset: {0}".format(self.properties['common_offset']))
-        #result.append("mixer parameter section offset: {0}".format(self.properties['mixer_offset']))
-        #result.append("drum parameter section offset: {0}".format(self.properties['drum_offset']))
-        #result.append("other offset parameter section: {0}".format(self.properties['otherpart_offset']))
         self.properties['common_parameters']._summarize("Common parameters", result)
         self.properties['mixer_parameters']._summarize("Mixer parameters", result)
         self.properties['drum_parameters']._summarize("Drum parameters", result)
         self.properties['other_parameters']._summarize("Chord parameters", result)
-
         return result

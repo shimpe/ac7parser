@@ -51,7 +51,7 @@ class BinaryWriter(object):
         pos = self.get_bookmark_position(bookmark)
         fmt = self.get_bookmark_fmt(bookmark)
         struct.pack_into(fmt, buffer, pos, value)
-        print(self.unresolved)
+        #print(self.unresolved)
         self.unresolved.remove(bookmark)
         return buffer
 

@@ -1,6 +1,6 @@
-from BinaryReader import BinaryReader
-from Ac7Base import Ac7Base
-from Ac7Constants import *
+from .BinaryReader import BinaryReader
+from .Ac7Base import Ac7Base
+from .Ac7Constants import *
 from math import log2
 
 class Ac7ParamList(Ac7Base):

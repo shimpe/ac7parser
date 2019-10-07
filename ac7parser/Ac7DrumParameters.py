@@ -1,7 +1,7 @@
 from collections import defaultdict
-from BinaryReader import BinaryReader
-from Ac7Base import Ac7Base
-from Ac7CasioEventAnalyzer import Ac7CasioEventAnalyzer
+from .BinaryReader import BinaryReader
+from .Ac7Base import Ac7Base
+from .Ac7CasioEventAnalyzer import Ac7CasioEventAnalyzer
 
 class Ac7DrumParameters(Ac7Base):
     def __init__(self):
@@ -17,7 +17,7 @@ class Ac7DrumParameters(Ac7Base):
         self._pos = pos
         self.properties['drum_offset'] = drum_offset
         if (self._pos != drum_offset):
-            print ("Warning... expected to be at drum offset, but something went wrong.\nPlease submit a bug report on github and attach your .ac7 file.\nself._pos = {0}, drum_offset = {1}".format(self._pos, drum_offset))
+            print("Warning... expected to be at drum offset, but something went wrong.\nPlease submit a bug report on github and attach your .ac7 file.\nself._pos = {0}, drum_offset = {1}".format(self._pos, drum_offset))
         self._pos = drum_offset
         magic = self._read(BinaryReader.magic("DRUM", "ascii", self._buffer, self._pos))
         size = self._read(BinaryReader.read("u4le", self._buffer, self._pos))

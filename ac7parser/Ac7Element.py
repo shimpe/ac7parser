@@ -1,8 +1,8 @@
 from collections import defaultdict
-from BinaryReader import BinaryReader
-from Ac7Base import Ac7Base
-from Ac7Constants import *
-from Ac7ParamList import Ac7ParamList
+from .BinaryReader import BinaryReader
+from .Ac7Base import Ac7Base
+from .Ac7Constants import *
+from .Ac7ParamList import Ac7ParamList
 
 class Ac7Element(Ac7Base):
     def __init__(self, el):

@@ -1,6 +1,6 @@
 from collections import defaultdict
-from BinaryReader import BinaryReader
-from Ac7Base import Ac7Base
+from .BinaryReader import BinaryReader
+from .Ac7Base import Ac7Base
 
 class Ac7MixerParameters(Ac7Base):
     def __init__(self):

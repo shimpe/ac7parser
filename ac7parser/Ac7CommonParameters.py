@@ -1,8 +1,8 @@
 from collections import defaultdict
-from BinaryReader import BinaryReader
-from Ac7Base import Ac7Base
-from Ac7Element import Ac7Element
-from Ac7ParamList import Ac7ParamList
+from .BinaryReader import BinaryReader
+from .Ac7Base import Ac7Base
+from .Ac7Element import Ac7Element
+from .Ac7ParamList import Ac7ParamList
 import struct
 
 class Ac7CommonParameters(Ac7Base):
