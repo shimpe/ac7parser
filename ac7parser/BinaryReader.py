@@ -6,16 +6,16 @@ class BinaryReader(object):
         pass
 
     @staticmethod
-    def read(format, buffer, pos):
+    def read(formaat, buffer, pos):
         format_to_structfmt = {
             "u1"  : "B", "s1": "b", "u2le": "<H", "s2le": "<h",
             "u4le": "<I", "s4le": "<i", "u8le": "<Q", "s8le": "<q",
             "f2le": "<e", "f4le": "<f", "f8le": "<d",
-            "u2be": ">H", "s2be": ">h", "u2be": ">I",
+            "u2be": ">H", "s2be": ">h", "u4be": ">I",
             "s4be": ">i", "u8be": ">Q", "s8be": ">q",
             "f2be": ">e", "f4be": ">f", "f8be": ">d"
         }
-        fmt = format_to_structfmt[format]
+        fmt = format_to_structfmt[formaat]
         fmt_cs = fmt[-1]
         value = struct.unpack_from(fmt, buffer[pos:], 0)[0]
         return value, pos + struct.calcsize(fmt_cs)

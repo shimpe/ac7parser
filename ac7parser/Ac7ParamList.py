@@ -7,6 +7,7 @@ from .BinaryReader import BinaryReader
 
 class Ac7ParamList(Ac7Base):
     def __init__(self):
+        super().__init__()
         self._buffer = None
         self._pos = 0
         self.i2s = {ac7paramnomore  : "param_nomore",

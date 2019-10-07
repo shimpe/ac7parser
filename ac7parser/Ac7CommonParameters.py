@@ -21,7 +21,7 @@ class Ac7CommonParameters(Ac7Base):
         self.properties['common_offset'] = common_offset
         # try to be smart about future file format changes, and set pos to common_offset now
         # in principle this should already be the case:
-        if (self._pos != common_offset):
+        if self._pos != common_offset:
             print(
                 "Warning... expected to be at common offset, but something went wrong.\nPlease submit a bug report on github and attach your .ac7 file.")
         self._pos = self.properties['common_offset']
@@ -53,7 +53,7 @@ class Ac7CommonParameters(Ac7Base):
     def sanitize_stylename(self, stylename):
         newstylename = ''
         for c in stylename:
-            if c in '!"#$\'()*+,-/:;<=>?0123456789 @ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_abcdefghijklmnopqrstuvwxyz{|}~':
+            if c in '!"#$\'()*+,-/:;<=>?0123456789 @ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz{|}~':
                 newstylename += c
         newstylename = newstylename[:12]
         return newstylename

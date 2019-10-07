@@ -18,7 +18,7 @@ class Ac7DrumParameters(Ac7Base):
         self._buffer = buffer
         self._pos = pos
         self.properties['drum_offset'] = drum_offset
-        if (self._pos != drum_offset):
+        if self._pos != drum_offset:
             print(
                 "Warning... expected to be at drum offset, but something went wrong.\nPlease submit a bug report on github and attach your .ac7 file.\nself._pos = {0}, drum_offset = {1}".format(
                     self._pos, drum_offset))
@@ -36,10 +36,9 @@ class Ac7DrumParameters(Ac7Base):
             else:
                 next_offset = self.properties['track_offsets'][i + 1]
             for j in range(int((next_offset - offset) / 3)):
-                casioevent = {}
-                casioevent['delta'] = self._read(BinaryReader.read("u1", self._buffer, self._pos))
-                casioevent['note_or_event'] = self._read(BinaryReader.read("u1", self._buffer, self._pos))
-                casioevent['vel_or_val'] = self._read(BinaryReader.read("u1", self._buffer, self._pos))
+                casioevent = {'delta'        : self._read(BinaryReader.read("u1", self._buffer, self._pos)),
+                              'note_or_event': self._read(BinaryReader.read("u1", self._buffer, self._pos)),
+                              'vel_or_val'   : self._read(BinaryReader.read("u1", self._buffer, self._pos))}
                 self.analyzer._annotate(casioevent)
                 self.properties['track_descriptors'][i]['casioevents'].append(casioevent)
         # print(self.properties)

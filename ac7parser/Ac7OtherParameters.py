@@ -7,6 +7,7 @@ from .BinaryReader import BinaryReader
 
 class Ac7OtherParameters(Ac7Base):
     def __init__(self):
+        super().__init__()
         self._buffer = None
         self.pos = 0
         self.properties = {'otherpart_offset' : 0,
@@ -22,8 +23,8 @@ class Ac7OtherParameters(Ac7Base):
         self.properties['otherpart_offset'] = otherpart_offset
         if self._pos != otherpart_offset:
             raise Exception(
-                "Warning... expected to be at 'other' parameters offset, but something went wrong.\nPlease submit a bug report on github and attach your .ac7 file.\n self._pos = {0}, otherpart_offset = {1}.").format(
-                self._pos, otherpart_offset)
+                "Warning... expected to be at 'other' parameters offset, but something went wrong.\nPlease submit a bug report on github and attach your .ac7 file.\n self._pos = {0}, otherpart_offset = {1}.".format(
+                self._pos, otherpart_offset))
         self._pos = otherpart_offset
         magic = self._read(BinaryReader.magic("OTHR", "ascii", self._buffer, self._pos))
         size = self._read(BinaryReader.read("u4le", self._buffer, self._pos))
@@ -62,10 +63,9 @@ class Ac7OtherParameters(Ac7Base):
             no_of_events_float = (next_offset - offset - 3) / 3
             no_of_events = int(no_of_events_float)
             for j in range(no_of_events):
-                casioevent = {}
-                casioevent['delta'] = self._read(BinaryReader.read("u1", self._buffer, self._pos))
-                casioevent['note_or_event'] = self._read(BinaryReader.read("u1", self._buffer, self._pos))
-                casioevent['vel_or_val'] = self._read(BinaryReader.read("u1", self._buffer, self._pos))
+                casioevent = {'delta'        : self._read(BinaryReader.read("u1", self._buffer, self._pos)),
+                              'note_or_event': self._read(BinaryReader.read("u1", self._buffer, self._pos)),
+                              'vel_or_val'   : self._read(BinaryReader.read("u1", self._buffer, self._pos))}
                 self.analyzer._annotate(casioevent)
                 self.properties['track_descriptors'][i]['casioevents'].append(casioevent)
 

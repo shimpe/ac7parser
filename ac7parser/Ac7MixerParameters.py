@@ -15,8 +15,8 @@ class Ac7MixerParameters(Ac7Base):
         self.properties['mixer_offset'] = mixer_offset
         if self._pos != mixer_offset:
             raise Exception(
-                "Warning... expected to be at mixer offset, but something went wrong.\nPlease submit a bug report on github and attach your .ac7 file.\n self._pos = {0}, mixer_offset = {1}").format(
-                self._pos, mixer_offset)
+                "Warning... expected to be at mixer offset, but something went wrong.\nPlease submit a bug report on github and attach your .ac7 file.\n self._pos = {0}, mixer_offset = {1}".format(
+                self._pos, mixer_offset))
         self._pos = mixer_offset
         magic = self._read(BinaryReader.magic("MIXR", "ascii", self._buffer, self._pos))
         size = self._read(BinaryReader.read("u4le", self._buffer, self._pos))

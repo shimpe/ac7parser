@@ -12,16 +12,10 @@ from .BinaryWriter import BinaryWriter
 class Ac7File(Ac7Base):
     def __init__(self):
         super().__init__()
-        self.properties = {}
-        self.properties['filesize'] = 0
-        self.properties['common_offset'] = 0
-        self.properties['mixer_offset'] = 0
-        self.properties['drum_offset'] = 0
-        self.properties['otherpart_offset'] = 0
-        self.properties['common_parameters'] = Ac7CommonParameters()
-        self.properties['mixer_parameters'] = Ac7MixerParameters()
-        self.properties['drum_parameters'] = Ac7DrumParameters()
-        self.properties['other_parameters'] = Ac7OtherParameters()
+        self.properties = {'filesize'        : 0, 'common_offset': 0, 'mixer_offset': 0, 'drum_offset': 0,
+                           'otherpart_offset': 0, 'common_parameters': Ac7CommonParameters(),
+                           'mixer_parameters': Ac7MixerParameters(), 'drum_parameters': Ac7DrumParameters(),
+                           'other_parameters': Ac7OtherParameters()}
         self.writer = BinaryWriter()
 
     def _load_header(self):

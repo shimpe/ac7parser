@@ -35,7 +35,7 @@ class BinaryWriter(object):
             self.bookmarks[bookmark] = (position, fmt)
             self.unresolved.add(bookmark)
 
-    def write(self, format, value, buffer, bookmark=""):
+    def write(self, formaat, value, buffer, bookmark=""):
         fmt = {
             "u1"  : "B", "s1": "b", "u2le": "<H", "s2le": "<h",
             "u4le": "<I", "s4le": "<i", "u8le": "<Q", "s8le": "<q",
@@ -44,8 +44,8 @@ class BinaryWriter(object):
             "u4be": ">I", "s4be": ">i", "u8be": ">Q", "s8be": ">q",
             "f2be": ">e", "f4be": ">f", "f8be": ">d"
         }
-        self.set_bookmark(bookmark, len(buffer), format)
-        buffer = buffer + struct.pack(fmt[format], value)
+        self.set_bookmark(bookmark, len(buffer), formaat)
+        buffer = buffer + struct.pack(fmt[formaat], value)
         return buffer
 
     def write_into(self, bookmark, value, buffer):

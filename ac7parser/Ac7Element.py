@@ -8,7 +8,7 @@ from .BinaryReader import BinaryReader
 class Ac7Element(Ac7Base):
     def __init__(self, el):
         super().__init__()
-        self.properties = defaultdict(lambda: defaultdict(lambda: {}))
+        self.properties = defaultdict(lambda: [])
         self.el = el
         self.el_interpreted = \
         {0: "intro", 1: "normal", 2: "variation", 3: "normal fill-in", 4: "variation fill-in", 5: "ending",
