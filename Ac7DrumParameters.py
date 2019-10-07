@@ -61,7 +61,8 @@ class Ac7DrumParameters(Ac7Base):
             value = writer.get_bookmark_position("start_of_drum_track{0}".format(i))
             buffer = writer.write_into("drum_track_offset{0}".format(i), value, buffer)
 
-        buffer = writer.write_into("size_of_drumsparam", len(buffer) - writer.get_bookmark_position("drum_track_offset0"),
+        buffer = writer.write_into("size_of_drumsparam",
+                                   len(buffer) - writer.get_bookmark_position("start_of_drumsparam"),
                                    buffer)
         return buffer
 

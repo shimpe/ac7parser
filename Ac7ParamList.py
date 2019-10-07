@@ -114,7 +114,7 @@ class Ac7ParamList(Ac7Base):
                 parts = parm["parts"]
                 buffer = writer.udynle(length, parts, buffer)
             elif param_id == ac7paramtrackidx:
-                length = len(parm["tracks"])
+                length = len(parm["tracks"])*2
                 buffer = writer.write("u1", length, buffer)
                 for track in parm["tracks"]:
                     trackidx = track['trackidx']

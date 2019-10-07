@@ -77,7 +77,10 @@ class Ac7CommonParameters(Ac7Base):
         size = writer.get_bookmark_position("end_of_common_offset") - writer.get_bookmark_position("start_of_commonparams")
         buffer = writer.write_into("common_size", size, buffer)
         for i in range(element_count):
-            buffer = writer.write_into("common_el_offset{0}".format(i), writer.get_bookmark_position("start_of_common_el_offset{0}".format(i)), buffer)
+            buffer = writer.write_into("common_el_offset{0}".format(i),
+                                       writer.get_bookmark_position("start_of_common_el_offset{0}".format(i)) -\
+                                       writer.get_bookmark_position("start_of_commonparams"),
+                                       buffer)
 
         return buffer
 

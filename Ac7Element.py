@@ -26,7 +26,9 @@ class Ac7Element(Ac7Base):
         buffer = writer.write("u2le", 0 , buffer, "{0}_offset_{1}".format(index_prefix, index)) # size
         buffer = Ac7ParamList()._write_parameter_list(self.properties["track_parameters"], writer, buffer)
         end_of_el = len(buffer)
-        buffer = writer.write_into("{0}_offset_{1}".format(index_prefix, index), end_of_el, buffer)
+        buffer = writer.write_into("{0}_offset_{1}".format(index_prefix, index),
+                                   end_of_el - writer.get_bookmark_position("{0}_offset_{1}".format(index_prefix, index)) + 4,
+                                   buffer)
         return buffer
 
     def _summarize(self, title, result):

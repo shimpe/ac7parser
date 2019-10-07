@@ -45,7 +45,7 @@ class Ac7MixerParameters(Ac7Base):
             buffer = writer.write("u1", self.properties['parameters'][i]['reverb'], buffer)
             buffer = writer.write("u1", self.properties['parameters'][i]['chorus'], buffer)
 
-        mixersize = len(buffer) - writer.get_bookmark_position("start_of_mixersize")
+        mixersize = len(buffer) - writer.get_bookmark_position("start_of_mixerparam")
         buffer = writer.write_into("mixer_size", mixersize, buffer)
         return buffer
 
