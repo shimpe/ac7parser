@@ -1,28 +1,30 @@
-from .BinaryReader import BinaryReader
+from math import log2
+
 from .Ac7Base import Ac7Base
 from .Ac7Constants import *
-from math import log2
+from .BinaryReader import BinaryReader
+
 
 class Ac7ParamList(Ac7Base):
     def __init__(self):
         self._buffer = None
         self._pos = 0
-        self.i2s = { ac7paramnomore : "param_nomore",
-                     ac7parambeat: "param_beat",
-                     ac7paramtempo: "param_tempo",
-                     ac7parammeasures : "param_measures",
-                     ac7paramparts : "param_parts",
-                     ac7paramtrackidx : "param_trackidx",
-                     ac7parammixeridx : "param_mixeridx",
-                     ac7parampartidx : "param_partidx"}
-        self.s2i = { "param_nomore" : ac7paramnomore ,
-                     "param_beat" : ac7parambeat,
-                     "param_tempo" : ac7paramtempo,
-                     "param_measures" : ac7parammeasures,
-                     "param_parts" : ac7paramparts ,
-                     "param_trackidx" : ac7paramtrackidx,
-                     "param_mixeridx" : ac7parammixeridx ,
-                     "param_partidx" : ac7parampartidx}
+        self.i2s = {ac7paramnomore  : "param_nomore",
+                    ac7parambeat    : "param_beat",
+                    ac7paramtempo   : "param_tempo",
+                    ac7parammeasures: "param_measures",
+                    ac7paramparts   : "param_parts",
+                    ac7paramtrackidx: "param_trackidx",
+                    ac7parammixeridx: "param_mixeridx",
+                    ac7parampartidx : "param_partidx"}
+        self.s2i = {"param_nomore"  : ac7paramnomore,
+                    "param_beat"    : ac7parambeat,
+                    "param_tempo"   : ac7paramtempo,
+                    "param_measures": ac7parammeasures,
+                    "param_parts"   : ac7paramparts,
+                    "param_trackidx": ac7paramtrackidx,
+                    "param_mixeridx": ac7parammixeridx,
+                    "param_partidx" : ac7parampartidx}
 
     def _load_parameter_list(self, root_el, buffer, pos):
         self._buffer = buffer
@@ -114,7 +116,7 @@ class Ac7ParamList(Ac7Base):
                 parts = parm["parts"]
                 buffer = writer.udynle(length, parts, buffer)
             elif param_id == ac7paramtrackidx:
-                length = len(parm["tracks"])*2
+                length = len(parm["tracks"]) * 2
                 buffer = writer.write("u1", length, buffer)
                 for track in parm["tracks"]:
                     trackidx = track['trackidx']
@@ -122,7 +124,7 @@ class Ac7ParamList(Ac7Base):
                     buffer = writer.write("u1", trackidx, buffer)
                     buffer = writer.write("u1", trackproperty, buffer)
             elif param_id == ac7parammixeridx:
-                length = len(parm["mixer"])*2
+                length = len(parm["mixer"]) * 2
                 buffer = writer.write("u1", length, buffer)
                 for track in parm["mixer"]:
                     trackidx = track['trackidx']
@@ -135,7 +137,7 @@ class Ac7ParamList(Ac7Base):
                 for j in range(length):
                     scale = ac7partid[parm["parts"][j]["type"]]
                     num = parm["parts"][j]["num"]
-                    partno =  num-1 if num != 0 else 0xf
+                    partno = num - 1 if num != 0 else 0xf
                     total = (scale << 4) | partno
                     buffer = writer.write("u1", total, buffer)
         buffer = writer.write("u1", ac7paramnomore, buffer)

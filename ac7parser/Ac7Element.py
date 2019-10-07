@@ -1,16 +1,18 @@
 from collections import defaultdict
-from .BinaryReader import BinaryReader
+
 from .Ac7Base import Ac7Base
-from .Ac7Constants import *
 from .Ac7ParamList import Ac7ParamList
+from .BinaryReader import BinaryReader
+
 
 class Ac7Element(Ac7Base):
     def __init__(self, el):
         super().__init__()
         self.properties = defaultdict(lambda: defaultdict(lambda: {}))
         self.el = el
-        self.el_interpreted = { 0 : "intro", 1: "normal", 2: "variation", 3:"normal fill-in", 4:"variation fill-in", 5: "ending",
-                                6 : "intro 2",  7 : "ending 2", 8 : "fill 2", 9: "fill 4" }[el]
+        self.el_interpreted = \
+        {0: "intro", 1: "normal", 2: "variation", 3: "normal fill-in", 4: "variation fill-in", 5: "ending",
+         6: "intro 2", 7: "ending 2", 8: "fill 2", 9: "fill 4"}[el]
 
     def _load(self, buffer, pos):
         self._buffer = buffer
@@ -23,11 +25,12 @@ class Ac7Element(Ac7Base):
 
     def _write(self, buffer, writer, index_prefix, index):
         buffer = writer.str("ELMT", "ascii", buffer, "start_of_{0}{1}".format(index_prefix, index))
-        buffer = writer.write("u2le", 0 , buffer, "{0}_offset_{1}".format(index_prefix, index)) # size
+        buffer = writer.write("u2le", 0, buffer, "{0}_offset_{1}".format(index_prefix, index))  # size
         buffer = Ac7ParamList()._write_parameter_list(self.properties["track_parameters"], writer, buffer)
         end_of_el = len(buffer)
         buffer = writer.write_into("{0}_offset_{1}".format(index_prefix, index),
-                                   end_of_el - writer.get_bookmark_position("{0}_offset_{1}".format(index_prefix, index)) + 4,
+                                   end_of_el - writer.get_bookmark_position(
+                                       "{0}_offset_{1}".format(index_prefix, index)) + 4,
                                    buffer)
         return buffer
 

@@ -1,5 +1,6 @@
 import struct
 
+
 class BinaryReader(object):
     def __init__(self):
         pass
@@ -7,25 +8,25 @@ class BinaryReader(object):
     @staticmethod
     def read(format, buffer, pos):
         format_to_structfmt = {
-            "u1" : "B", "s1" : "b", "u2le" : "<H", "s2le" : "<h",
-            "u4le": "<I", "s4le" : "<i", "u8le" : "<Q", "s8le" : "<q",
-            "f2le" : "<e", "f4le" : "<f", "f8le" : "<d",
-            "u2be" : ">H", "s2be" : ">h", "u2be" : ">I",
-            "s4be" : ">i", "u8be" : ">Q", "s8be" : ">q",
-            "f2be" : ">e", "f4be" : ">f", "f8be" : ">d"
+            "u1"  : "B", "s1": "b", "u2le": "<H", "s2le": "<h",
+            "u4le": "<I", "s4le": "<i", "u8le": "<Q", "s8le": "<q",
+            "f2le": "<e", "f4le": "<f", "f8le": "<d",
+            "u2be": ">H", "s2be": ">h", "u2be": ">I",
+            "s4be": ">i", "u8be": ">Q", "s8be": ">q",
+            "f2be": ">e", "f4be": ">f", "f8be": ">d"
         }
         fmt = format_to_structfmt[format]
         fmt_cs = fmt[-1]
         value = struct.unpack_from(fmt, buffer[pos:], 0)[0]
-        return value, pos+struct.calcsize(fmt_cs)
+        return value, pos + struct.calcsize(fmt_cs)
 
     @staticmethod
     def udynle(size, buffer, pos):
         lookup = {
-            1 : "u1",
-            2 : "u2le",
-            4 : "u4le",
-            8 : "u8le",
+            1: "u1",
+            2: "u2le",
+            4: "u4le",
+            8: "u8le",
         }
         return BinaryReader.read(lookup[size], buffer, pos)
 
@@ -51,10 +52,10 @@ class BinaryReader(object):
     @staticmethod
     def udynbe(size, buffer, pos):
         lookup = {
-            1 : "u1",
-            2 : "u2be",
-            4 : "u4be",
-            8 : "u8be",
+            1: "u1",
+            2: "u2be",
+            4: "u4be",
+            8: "u8be",
         }
         return BinaryReader.read(lookup[size], buffer, pos)
 
@@ -81,7 +82,7 @@ class BinaryReader(object):
     def str(length, encoding, buffer, pos):
         formatstr = "{0}s".format(length)
         value = struct.unpack_from(formatstr, buffer[pos:], 0)[0].decode(encoding)
-        return value, pos+struct.calcsize(formatstr)
+        return value, pos + struct.calcsize(formatstr)
 
     @staticmethod
     def magic(expected, encoding, buffer, pos):
@@ -92,4 +93,4 @@ class BinaryReader(object):
             value = struct.unpack_from(formatstr, buffer[pos:], 0)[0]
         if value != expected:
             assert False, "Expected MAGIC not found. File format error."
-        return value, pos+struct.calcsize(formatstr)
+        return value, pos + struct.calcsize(formatstr)

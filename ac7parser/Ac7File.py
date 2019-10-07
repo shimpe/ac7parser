@@ -1,12 +1,13 @@
 import os
-import struct
-from .BinaryReader import BinaryReader
-from .BinaryWriter import BinaryWriter
+
 from .Ac7Base import Ac7Base
 from .Ac7CommonParameters import Ac7CommonParameters
-from .Ac7MixerParameters import Ac7MixerParameters
 from .Ac7DrumParameters import Ac7DrumParameters
+from .Ac7MixerParameters import Ac7MixerParameters
 from .Ac7OtherParameters import Ac7OtherParameters
+from .BinaryReader import BinaryReader
+from .BinaryWriter import BinaryWriter
+
 
 class Ac7File(Ac7Base):
     def __init__(self):
@@ -29,7 +30,7 @@ class Ac7File(Ac7Base):
 
     def _write_header(self, buffer):
         buffer = self.writer.str("AC07", "ascii", buffer)
-        buffer = self.writer.write("u4le", 0, buffer, "filesize") # bookmark so we can fill it in later
+        buffer = self.writer.write("u4le", 0, buffer, "filesize")  # bookmark so we can fill it in later
         return buffer
 
     def _load_commonoffset(self):
@@ -78,16 +79,17 @@ class Ac7File(Ac7Base):
 
     def _load_mixermem(self):
         self._pos = self.properties['mixer_parameters']._load(self._buffer, self._pos,
-                                                               self.properties['mixer_offset'])
+                                                              self.properties['mixer_offset'])
 
     def _write_mixermem(self, buffer):
-        buffer = self.properties['mixer_parameters']  ._write(self.writer, buffer)
+        buffer = self.properties['mixer_parameters']._write(self.writer, buffer)
         return buffer
 
     def _load_drumsmem(self):
         self._pos = self.properties['drum_parameters']._load(self._buffer, self._pos,
                                                              self.properties['drum_offset'],
                                                              self.properties['otherpart_offset'])
+
     def _write_drumsmem(self, buffer):
         buffer = self.properties['drum_parameters']._write(self.writer, buffer)
         return buffer
@@ -118,7 +120,8 @@ class Ac7File(Ac7Base):
 
     def write_file(self, filename, allow_overwrite=False, report_unresolved=False):
         if not allow_overwrite and os.path.exists(filename):
-            print("Error! I refuse to overwrite existing file {0}. Please specify a different filename.".format(filename))
+            print(
+                "Error! I refuse to overwrite existing file {0}. Please specify a different filename.".format(filename))
             return
         with open(filename, "wb") as f:
             self._pos = 0

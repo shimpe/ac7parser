@@ -1,27 +1,29 @@
 from collections import defaultdict
-from .BinaryReader import BinaryReader
+
 from .Ac7Base import Ac7Base
 from .Ac7Element import Ac7Element
 from .Ac7ParamList import Ac7ParamList
-import struct
+from .BinaryReader import BinaryReader
+
 
 class Ac7CommonParameters(Ac7Base):
     def __init__(self):
         super().__init__()
-        self.properties = {'common_offset': 0,
-                           'element_offsets': [],
-                           'stylename': "",
-                           'overall_parameters': defaultdict(lambda : {})
+        self.properties = {'common_offset'     : 0,
+                           'element_offsets'   : [],
+                           'stylename'         : "",
+                           'overall_parameters': defaultdict(lambda: {})
                            }
 
     def _load(self, buffer, pos, common_offset):
         self._buffer = buffer
         self._pos = pos
         self.properties['common_offset'] = common_offset
-        #try to be smart about future file format changes, and set pos to common_offset now
+        # try to be smart about future file format changes, and set pos to common_offset now
         # in principle this should already be the case:
         if (self._pos != common_offset):
-            print("Warning... expected to be at common offset, but something went wrong.\nPlease submit a bug report on github and attach your .ac7 file.")
+            print(
+                "Warning... expected to be at common offset, but something went wrong.\nPlease submit a bug report on github and attach your .ac7 file.")
         self._pos = self.properties['common_offset']
         # read magic number
         commontag = self._read(BinaryReader.magic(b'\xff\xff\xff\x07', None, self._buffer, self._pos))
@@ -74,11 +76,12 @@ class Ac7CommonParameters(Ac7Base):
 
         # fill in the bookmarks
         writer.set_bookmark("end_of_common_offset", len(buffer), "u1")
-        size = writer.get_bookmark_position("end_of_common_offset") - writer.get_bookmark_position("start_of_commonparams")
+        size = writer.get_bookmark_position("end_of_common_offset") - writer.get_bookmark_position(
+            "start_of_commonparams")
         buffer = writer.write_into("common_size", size, buffer)
         for i in range(element_count):
             buffer = writer.write_into("common_el_offset{0}".format(i),
-                                       writer.get_bookmark_position("start_of_common_el_offset{0}".format(i)) -\
+                                       writer.get_bookmark_position("start_of_common_el_offset{0}".format(i)) - \
                                        writer.get_bookmark_position("start_of_commonparams"),
                                        buffer)
 
@@ -86,10 +89,10 @@ class Ac7CommonParameters(Ac7Base):
 
     def _summarize(self, title, result):
         result.append(title)
-        result.append("*"*len(title))
+        result.append("*" * len(title))
         result.append("stylename: {0}".format(self.properties['stylename']))
         result.append("Overall parameters: {0}".format(self.properties['overall_parameters']['common'].__repr__()))
         for el in range(len(self.properties['overall_parameters']['elements'])):
-            title = "Element {0}".format(el+1)
+            title = "Element {0}".format(el + 1)
             self.properties['overall_parameters']['elements'][el]._summarize(title, result)
         return result
