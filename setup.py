@@ -8,5 +8,16 @@ setup(
     license='GPLv3',
     author='shiihs',
     author_email='b13d1be5@opayq.com',
-    description='parser for ac7 files'
+    description='parser for ac7 files',
+    classifiers=[
+        'Development Status :: 3 - Alpha',
+        'Intended Audience :: Developers',
+        'Programming Language :: Python :: 3.7',
+        'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python :: 3 :: Only',
+        'Topic :: Multimedia :: Sound/Audio',
+        'Topic :: Multimedia :: Sound/Audio :: Editors',
+        'Topic :: Utilities'
+    ],
 )
