@@ -12,11 +12,14 @@ from .BinaryWriter import BinaryWriter
 class Ac7File(Ac7Base):
     def __init__(self):
         super().__init__()
-        self.properties = {'filesize'        : 0, 'common_offset': 0, 'mixer_offset': 0, 'drum_offset': 0,
-                           'otherpart_offset': 0, 'common_parameters': Ac7CommonParameters(),
-                           'mixer_parameters': Ac7MixerParameters(), 'drum_parameters': Ac7DrumParameters(),
-                           'other_parameters': Ac7OtherParameters()}
+        self.reset()
         self.writer = BinaryWriter()
+
+    def reset(self):
+        self.properties = {'filesize'        : 0, 'common_offset': 0, 'mixer_offset': 0, 'drum_offset': 0,
+                    'otherpart_offset': 0, 'common_parameters': Ac7CommonParameters(),
+                    'mixer_parameters': Ac7MixerParameters(), 'drum_parameters': Ac7DrumParameters(),
+                    'other_parameters': Ac7OtherParameters()}
 
     def _load_header(self):
         magicstr = self._read(BinaryReader.magic("AC07", "ascii", self._buffer, self._pos))
@@ -98,6 +101,7 @@ class Ac7File(Ac7Base):
         return buffer
 
     def load_file(self, filename):
+        self.reset()
         with open(filename, "rb") as f:
             self._pos = 0
             self._buffer = f.read()
