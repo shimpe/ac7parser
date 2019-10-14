@@ -56,6 +56,8 @@ class Ac7CommonParameters(Ac7Base):
             if c in '!"#$\'()*+,-/:;<=>?0123456789 @ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz{|}~':
                 newstylename += c
         newstylename = newstylename[:12]
+        if len(newstylename) < 12:
+            newstylename = newstylename + " "*(12-len(newstylename))
         return newstylename
 
     def _write(self, writer, buffer):
