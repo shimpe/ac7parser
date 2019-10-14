@@ -81,7 +81,10 @@ class BinaryReader(object):
     @staticmethod
     def str(length, encoding, buffer, pos):
         formatstr = "{0}s".format(length)
-        value = struct.unpack_from(formatstr, buffer[pos:], 0)[0].decode(encoding)
+        if encoding is not None:
+            value = struct.unpack_from(formatstr, buffer[pos:], 0)[0].decode(encoding)
+        else:
+            value = struct.unpack_from(formatstr, buffer[pos:], 0)[0]
         return value, pos + struct.calcsize(formatstr)
 
     @staticmethod

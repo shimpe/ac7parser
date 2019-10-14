@@ -33,7 +33,10 @@ class Ac7ParamList(Ac7Base):
         param_id = self._read(BinaryReader.read("u1", self._buffer, self._pos))
         while param_id != ac7paramnomore:
             root_el.append({})
-            parm = self.i2s[param_id]
+            if param_id in self.i2s:
+                parm = self.i2s[param_id]
+            else:
+                parm = "{0}".format(param_id)
             root_el[-1]['parm'] = parm
             if param_id == ac7parambeat:
                 length = self._read(BinaryReader.read("u1", self._buffer, self._pos))
@@ -88,13 +91,22 @@ class Ac7ParamList(Ac7Base):
                         root_el[-1]["parts"][j]["type"] = "major"
                     elif scale == 0xa:
                         root_el[-1]["parts"][j]["type"] = "minor"
+            else: # unknown parameter
+                length = self._read(BinaryReader.read("u1", self._buffer, self._pos))
+                root_el[-1]["length"] = length
+                data = self._read(BinaryReader.str(length, None, self._buffer, self._pos))
+                root_el[-1]["data"] = data
+
             param_id = self._read(BinaryReader.read("u1", self._buffer, self._pos))
         length_zero = self._read(BinaryReader.read("u1", self._buffer, self._pos))
         return self._pos
 
     def _write_parameter_list(self, root_el, writer, buffer):
         for parm in root_el:
-            param_id = self.s2i[parm['parm']]
+            if parm['parm'] in self.s2i:
+                param_id = self.s2i[parm['parm']]
+            else:
+                param_id = int(parm['parm'])
             buffer = writer.write("u1", param_id, buffer)
             if param_id == ac7parambeat:
                 length = parm["length"]
@@ -141,6 +153,11 @@ class Ac7ParamList(Ac7Base):
                     partno = num - 1 if num != 0 else 0xf
                     total = (scale << 4) | partno
                     buffer = writer.write("u1", total, buffer)
+            else: # unknown parameter
+                length = len(parm["data"])
+                buffer = writer.write("u1", length, buffer)
+                buffer = writer.str(parm["data"], None, buffer)
+
         buffer = writer.write("u1", ac7paramnomore, buffer)
         buffer = writer.write("u1", 0, buffer)
         return buffer

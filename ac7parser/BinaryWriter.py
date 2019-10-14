@@ -111,7 +111,10 @@ class BinaryWriter(object):
     def str(self, value, encoding, buffer, bookmark=""):
         formatstr = "{0}s".format(len(value))
         self.set_bookmark(bookmark, len(buffer), formatstr)
-        buffer = buffer + struct.pack(formatstr, value.encode(encoding))
+        if encoding is not None:
+            buffer = buffer + struct.pack(formatstr, value.encode(encoding))
+        else:
+            buffer = buffer + struct.pack(formatstr, value)
         return buffer
 
     def get_unresolved(self):
