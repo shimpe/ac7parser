@@ -39,7 +39,7 @@ class Ac7CommonParameters(Ac7Base):
         self._read(BinaryReader.read("u1", self._buffer, self._pos))
         # read stylename length
         stylenamelength = self._read(BinaryReader.read("u1", self._buffer, self._pos))
-        self.properties['stylename'] = self._read(BinaryReader.str(stylenamelength, "ascii", self._buffer, self._pos))
+        self.properties['stylename'] = self._read(BinaryReader.str(stylenamelength, "latin1", self._buffer, self._pos))
         # repeat reading parameters until no more params is read
         self.properties['overall_parameters']['common'] = []
         root_el = self.properties['overall_parameters']['common']
@@ -70,7 +70,7 @@ class Ac7CommonParameters(Ac7Base):
         buffer = writer.write("u1", 0, buffer)
         stylename = self.sanitize_stylename(self.properties['stylename'])
         buffer = writer.write("u1", len(stylename), buffer)
-        buffer = writer.str(stylename, "ascii", buffer)
+        buffer = writer.str(stylename, "latin1", buffer)
         root_el = self.properties['overall_parameters']['common']
         buffer = Ac7ParamList()._write_parameter_list(root_el, writer, buffer)
         for i in range(element_count):
