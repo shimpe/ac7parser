@@ -53,7 +53,7 @@ class Ac7CommonParameters(Ac7Base):
     def sanitize_stylename(self, stylename):
         newstylename = ''
         for c in stylename:
-            if c in '!"#$\'()*+,-/:;<=>?0123456789 @ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz{|}~':
+            if c in '!"#$&\'()*+,-/:;<=>?0123456789 @ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz{|}~':
                 newstylename += c
         newstylename = newstylename[:12]
         if len(newstylename) < 12:
