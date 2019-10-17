@@ -64,7 +64,7 @@ def main():
             except Exception as e:
                 print("   could not remove: {0}\nbecause {1} ".format(reconstructed_filename, e.__repr__()))
 
-    print("ran {0} test".format(len(failures)+len(successes)))
+    print("ran {0} tests".format(len(failures)+len(successes)))
     if successes:
         print("Successes: {0}".format(len(successes)))
 
