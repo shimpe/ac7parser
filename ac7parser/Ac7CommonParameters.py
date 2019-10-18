@@ -53,7 +53,7 @@ class Ac7CommonParameters(Ac7Base):
     def sanitize_stylename(self, stylename):
         newstylename = ''
         for c in stylename:
-            if c in '!"#$&\'()*+,-/:;<=>?0123456789 @ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz{|}~':
+            if c in '!"#$&\'()*+,.-/:;<=>?0123456789 @ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz{|}~':
                 newstylename += c
         newstylename = newstylename[:12]
         if len(newstylename) < 12:
@@ -68,7 +68,8 @@ class Ac7CommonParameters(Ac7Base):
         for i in range(element_count):
             buffer = writer.write("u4le", 0, buffer, "common_el_offset{0}".format(i))
         buffer = writer.write("u1", 0, buffer)
-        stylename = self.sanitize_stylename(self.properties['stylename'])
+        #stylename = self.sanitize_stylename(self.properties['stylename'])
+        stylename = self.properties['stylename']
         buffer = writer.write("u1", len(stylename), buffer)
         buffer = writer.str(stylename, "latin1", buffer)
         root_el = self.properties['overall_parameters']['common']
