@@ -20,7 +20,7 @@ class Ac7CasioEventAnalyzer(object):
         corner_case_octave_higher = {"cb", "c-", "cbb", "c--"}
         self.midi_to_note = defaultdict(lambda: [])
         notenum = 0
-        for octave in range(10):
+        for octave in range(11):
             for note_synonyms in chromatic_scale:
                 if notenum <= 127:
                     for note in note_synonyms:
