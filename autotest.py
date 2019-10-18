@@ -20,7 +20,7 @@ def collect_ac7files(location):
     return [filename for filename in Path(location).glob('**/*.AC7')]
 
 def main():
-    testfiles = collect_ac7files(os.path.join(get_script_path(), "testfiles", "Community"))
+    testfiles = collect_ac7files(os.path.join(get_script_path(), "testfiles"))
     failures = {}
     successes = {}
     for f in testfiles:
