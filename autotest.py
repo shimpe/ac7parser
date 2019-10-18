@@ -20,7 +20,7 @@ def main():
     failures = {}
     successes = {}
     for f in testfiles:
-        if not f.name.lower().startswith("reconstructed"):
+        if not f.name.lower().startswith("reconstructed") and not ".git" in "{0}".format(f):
             print("examining {0}".format(f))
             a = Ac7File()
             try:
@@ -52,7 +52,7 @@ def main():
                     print("    ok (known assertion)")
 
     for f in testfiles:
-        if f not in failures:
+        if not ".git" in "{0}".format(f) and f not in failures:
             only_filename = f.name
             only_folder = os.path.dirname(f)
             reconstructed_filename = os.path.join(only_folder, "reconstructed-{0}".format(only_filename))
