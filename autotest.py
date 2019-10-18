@@ -20,11 +20,11 @@ def main():
     failures = {}
     successes = {}
     for f in testfiles:
-        if not f.startswith("reconstructed"):
+        if not f.name.lower().startswith("reconstructed"):
             print("examining {0}".format(f))
             a = Ac7File()
             try:
-                only_filename = os.path.basename(f)
+                only_filename = f.name
                 only_folder = os.path.dirname(f)
                 a.load_file(f)
                 reconstructed_filename = os.path.join(only_folder, "reconstructed-{0}".format(only_filename))
@@ -53,7 +53,8 @@ def main():
 
     for f in testfiles:
         if f not in failures:
-            only_filename = os.path.basename(f)
+            only_filename = f.name
+            only_folder = os.path.dirname(f)
             reconstructed_filename = os.path.join(only_folder, "reconstructed-{0}".format(only_filename))
             try:
                 os.remove(reconstructed_filename)
