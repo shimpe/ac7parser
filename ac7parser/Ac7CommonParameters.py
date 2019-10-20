@@ -60,7 +60,7 @@ class Ac7CommonParameters(Ac7Base):
             newstylename = newstylename + " "*(12-len(newstylename))
         return newstylename
 
-    def _write(self, writer, buffer):
+    def _write(self, writer, buffer, custom_ordering):
         buffer = writer.write("u4le", 0x07ffffff, buffer, "start_of_commonparams")
         buffer = writer.write("u2le", 0, buffer, "common_size")
         element_count = len(self.properties['overall_parameters']['elements'])
@@ -75,7 +75,11 @@ class Ac7CommonParameters(Ac7Base):
         root_el = self.properties['overall_parameters']['common']
         buffer = Ac7ParamList()._write_parameter_list(root_el, writer, buffer)
         for i in range(element_count):
-            buffer = self.properties['overall_parameters']['elements'][i]._write(buffer, writer, "common_el_offset", i)
+            if custom_ordering is None:
+                j = i
+            else:
+                j = custom_ordering[i]
+            buffer = self.properties['overall_parameters']['elements'][j]._write(buffer, writer, "common_el_offset", i)
 
         # fill in the bookmarks
         writer.set_bookmark("end_of_common_offset", len(buffer), "u1")

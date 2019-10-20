@@ -14,8 +14,13 @@ class Ac7File(Ac7Base):
         super().__init__()
         self.reset()
         self.writer = BinaryWriter()
+        self.custom_element_ordering = None
+
+    def set_custom_element_ordering(self, custom_order):
+        self.custom_element_ordering = custom_order
 
     def reset(self):
+        self.custom_element_ordering = None
         self.properties = {'filesize'        : 0, 'common_offset': 0, 'mixer_offset': 0, 'drum_offset': 0,
                     'otherpart_offset': 0, 'common_parameters': Ac7CommonParameters(),
                     'mixer_parameters': Ac7MixerParameters(), 'drum_parameters': Ac7DrumParameters(),
@@ -71,7 +76,7 @@ class Ac7File(Ac7Base):
                                                                self.properties['common_offset'])
 
     def _write_commonmem(self, buffer):
-        buffer = self.properties['common_parameters']._write(self.writer, buffer)
+        buffer = self.properties['common_parameters']._write(self.writer, buffer, self.custom_element_ordering)
         return buffer
 
     def _load_mixermem(self):
