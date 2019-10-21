@@ -11,7 +11,7 @@ class Ac7Element(Ac7Base):
         self.properties = defaultdict(lambda: [])
         self.el = el
         self.lut = {0: "intro", 1: "normal", 2: "variation", 3: "normal fill-in", 4: "variation fill-in", 5: "ending",
-         6: "intro 2", 7: "ending 2", 8: "variation 3", 9: "variation 4"}
+                6: "intro 2", 7: "ending 2", 8: "variation 3", 9: "fill-in 3", 10: "variation 4",  11: "fill-in 4"}
         for i in range(20):
             self.lut[i+10] = "unknown element type {0}".format(i)
         self.el_interpreted = self.lut[el]
