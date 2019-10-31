@@ -2,6 +2,7 @@ from collections import defaultdict
 
 from .Ac7Base import Ac7Base
 from .BinaryReader import BinaryReader
+from .Ac7CasioToneAnalyzer import Ac7CasioToneAnalyzer
 
 
 class Ac7MixerParameters(Ac7Base):
@@ -23,6 +24,7 @@ class Ac7MixerParameters(Ac7Base):
         paramcount = self._read(BinaryReader.read("u2le", self._buffer, self._pos))
         for i in range(paramcount):
             self.properties['parameter_offsets'].append(self._read(BinaryReader.read("u4le", self._buffer, self._pos)))
+        analyzer = Ac7CasioToneAnalyzer()
         for i in range(paramcount):
             self.properties['parameters'][i]['tone'] = self._read(BinaryReader.read("u1", self._buffer, self._pos))
             self.properties['parameters'][i]['bank'] = self._read(BinaryReader.read("u1", self._buffer, self._pos))
@@ -30,6 +32,7 @@ class Ac7MixerParameters(Ac7Base):
             self.properties['parameters'][i]['pan'] = self._read(BinaryReader.read("u1", self._buffer, self._pos))
             self.properties['parameters'][i]['reverb'] = self._read(BinaryReader.read("u1", self._buffer, self._pos))
             self.properties['parameters'][i]['chorus'] = self._read(BinaryReader.read("u1", self._buffer, self._pos))
+            self.properties['parameters'][i]['tone_interpreted'] = analyzer.tone_to_descr(i, self.properties['parameters'][i]['tone'])
 
         # print(self.properties)
         return self._pos
