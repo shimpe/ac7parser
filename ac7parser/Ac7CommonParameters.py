@@ -103,3 +103,7 @@ class Ac7CommonParameters(Ac7Base):
             title = "Element {0}".format(el + 1)
             self.properties['overall_parameters']['elements'][el]._summarize(title, result)
         return result
+
+    def sanitize_for_saving(self):
+        stylename = self.properties['stylename']
+        self.properties['stylename'] = self.sanitize_stylename(stylename)

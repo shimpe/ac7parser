@@ -174,3 +174,6 @@ class Ac7File(Ac7Base):
         self.properties['drum_parameters']._summarize("Drum parameters", result)
         self.properties['other_parameters']._summarize("Chord parameters", result)
         return result
+
+    def prepare_for_save(self):
+        self.properties['common_parameters'].sanitize_for_saving()
