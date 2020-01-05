@@ -7,13 +7,16 @@ from pathlib import Path
 accepted_differences = [
 ]
 
-known_assertions = [ "BBBossa1.AC7" ]
+known_assertions = ["BBBossa1.AC7"]
+
 
 def get_script_path():
     return os.path.dirname(os.path.realpath(sys.argv[0]))
 
+
 def collect_ac7files(location):
     return [filename for filename in Path(location).glob('**/*.AC7')]
+
 
 def main():
     testfiles = collect_ac7files(os.path.join(get_script_path(), "testfiles"))
@@ -37,9 +40,10 @@ def main():
                     m = hashlib.md5()
                     m.update(fl.read())
                     reconstructed_checksum = m.digest()
-                if original_checksum != reconstructed_checksum and\
+                if original_checksum != reconstructed_checksum and \
                         (original_checksum, reconstructed_checksum) not in accepted_differences:
-                    print("   unexpected difference found (orig: {0}, new: {1})".format(original_checksum, reconstructed_checksum))
+                    print("   unexpected difference found (orig: {0}, new: {1})".format(original_checksum,
+                                                                                        reconstructed_checksum))
                     failures[f] = "checksums differ"
                 else:
                     print("   ok")
@@ -62,7 +66,7 @@ def main():
             except Exception as e:
                 print("   could not remove: {0}\nbecause {1} ".format(reconstructed_filename, e.__repr__()))
 
-    print("ran {0} tests".format(len(failures)+len(successes)))
+    print("ran {0} tests".format(len(failures) + len(successes)))
     if successes:
         print("Successes: {0}".format(len(successes)))
 
@@ -70,7 +74,8 @@ def main():
         print("Failures")
         print("********")
         for f in failures:
-            print("{0} because {1})".format(f,failures[f]))
+            print("{0} because {1})".format(f, failures[f]))
+
 
 if __name__ == "__main__":
     main()
