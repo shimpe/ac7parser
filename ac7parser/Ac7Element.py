@@ -3,6 +3,7 @@ from collections import defaultdict
 from .Ac7Base import Ac7Base
 from .Ac7ParamList import Ac7ParamList
 from .BinaryReader import BinaryReader
+from .Ac7Constants import ac7elements
 
 
 class Ac7Element(Ac7Base):
@@ -10,10 +11,10 @@ class Ac7Element(Ac7Base):
         super().__init__()
         self.properties = defaultdict(lambda: [])
         self.el = el
-        self.lut = {0: "intro", 1: "normal", 2: "variation", 3: "normal fill-in", 4: "variation fill-in", 5: "ending",
-                6: "intro 2", 7: "ending 2", 8: "variation 3", 9: "fill-in 3", 10: "variation 4",  11: "fill-in 4"}
+        self.lut = ac7elements
+        elems_in_lut = len(self.lut)
         for i in range(20):
-            self.lut[i+10] = "unknown element type {0}".format(i)
+            self.lut[i + elems_in_lut] = "unknown element type {0}".format(i)
         self.el_interpreted = self.lut[el]
 
     def _load(self, buffer, pos):
