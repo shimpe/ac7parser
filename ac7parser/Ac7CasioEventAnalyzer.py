@@ -51,7 +51,7 @@ class Ac7CasioEventAnalyzer(object):
             casioevent['annotation'] = 'UNKNOWN'
         if casioevent['note_or_event'] == 255 and casioevent['vel_or_val'] != 0:
             casioevent[
-                'annotation'] = 'longdelta doesn\'t fit in single BYTE; longdelta = (vel_or_val << 8) + delta)'
+                'annotation'] = 'longdelta doesn\'t fit in single BYTE; longdelta = (vel_or_val << 7) + delta)'
         if casioevent['note_or_event'] == 255 and casioevent['vel_or_val'] == 0 and casioevent['delta'] == 0:
             casioevent['annotation'] = 'pseudoevent to have even number?'
         if casioevent['note_or_event'] == 181:
@@ -65,4 +65,4 @@ class Ac7CasioEventAnalyzer(object):
         if casioevent['note_or_event'] == 142:
             casioevent['annotation'] = 'pitch bend value {0}'.format(casioevent['vel_or_val'])
         if casioevent['note_or_event'] == 252:
-            casioevent['annotation'] = 'end of part; longdelta = (vel_or_val << 8) + delta'
+            casioevent['annotation'] = 'end of part; longdelta = (vel_or_val << 7) + delta'
