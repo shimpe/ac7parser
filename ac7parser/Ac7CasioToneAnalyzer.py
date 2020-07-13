@@ -158,6 +158,12 @@ class Ac7CasioToneAnalyzer(object):
     def tone_to_descr(self, idx, tone):
         modidx = idx % 8
         if modidx <= 1:
-            return self.tone_to_drumset[tone]
+            if tone in self.tone_to_drumset:
+                return self.tone_to_drumset[tone]
+            else:
+                return "unknown drum tone {0}".format(tone)
         else:
-            return self.tone_to_gm[tone]
+            if tone in self.tone_to_gm:
+                return self.tone_to_gm[tone]
+            else:
+                return "unknown tone {0}".format(tone)
