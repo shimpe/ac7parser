@@ -44,17 +44,17 @@ class Ac7CasioEventAnalyzer(object):
         if casioevent['note_or_event'] == 176 and casioevent['vel_or_val'] == 0:
             casioevent['annotation'] = 'mod wheel off'
         if casioevent['note_or_event'] == 229:
-            casioevent['annotation'] = 'recording data event? start of track? debugging event?'
+            casioevent['annotation'] = 'start of user recorded data'
         if casioevent['note_or_event'] == 227:
             casioevent['annotation'] = 'UNKNOWN'
         if casioevent['note_or_event'] == 228:
-            casioevent['annotation'] = 'UNKNOWN'
+            casioevent['annotation'] = 'UNKNOWN - prevent recording/editing?'
         if casioevent['note_or_event'] == 255 and casioevent['vel_or_val'] != 0:
             casioevent['annotation'] = 'longdelta doesn\'t fit in single BYTE; longdelta = (vel_or_val << 8) + delta'
         if casioevent['note_or_event'] == 255 and casioevent['vel_or_val'] == 0 and casioevent['delta'] == 0:
             casioevent['annotation'] = 'pseudoevent to have even number?'
         if casioevent['note_or_event'] == 181:
-            casioevent['annotation'] = 'expression'
+            casioevent['annotation'] = 'modulation wheel'
         if casioevent['note_or_event'] == 186:
             casioevent['annotation'] = 'cut-off'
         if casioevent['note_or_event'] == 187:

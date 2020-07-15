@@ -2,6 +2,7 @@ from collections import defaultdict
 
 from .Ac7Base import Ac7Base
 from .Ac7CasioEventAnalyzer import Ac7CasioEventAnalyzer
+from .Ac7TrackLockRemover import Ac7TrackLockRemover
 from .BinaryReader import BinaryReader
 
 
@@ -81,6 +82,11 @@ class Ac7OtherParameters(Ac7Base):
                                   "start_of_otheroffset{0}".format(i))
             buffer = writer.write("u1", self.properties['track_descriptors'][i]['chordparam'], buffer)
             buffer = writer.write("u1", self.properties['track_descriptors'][i]['roothelper'], buffer)
+
+            # experimental track unlock
+            tlr = Ac7TrackLockRemover()
+            self.properties['track_descriptors'][i]['casioevents'] = tlr.remove_lock(self.properties['track_descriptors'][i]['casioevents'])
+
             casioevents = self.properties['track_descriptors'][i]['casioevents']
             no_of_events = len(casioevents)
             for j in range(no_of_events):

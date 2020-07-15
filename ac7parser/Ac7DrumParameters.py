@@ -2,6 +2,7 @@ from collections import defaultdict
 
 from .Ac7Base import Ac7Base
 from .Ac7CasioEventAnalyzer import Ac7CasioEventAnalyzer
+from .Ac7TrackLockRemover import Ac7TrackLockRemover
 from .BinaryReader import BinaryReader
 
 
@@ -52,13 +53,17 @@ class Ac7DrumParameters(Ac7Base):
         for i in range(trackcount):
             buffer = writer.write("u4le", 0, buffer, "drum_track_offset{0}".format(i))
         for i in range(trackcount):
+
+            # experimental track unlock
+            tlr = Ac7TrackLockRemover()
+            self.properties['track_descriptors'][i]['casioevents'] = tlr.remove_lock(
+                self.properties['track_descriptors'][i]['casioevents'])
+
             for l in range(len(self.properties['track_descriptors'][i]['casioevents'])):
-                buffer = writer.write("u1", self.properties['track_descriptors'][i]['casioevents'][l]['delta'], buffer,
-                                      "start_of_drum_track{0}".format(i) if l == 0 else "")
-                buffer = writer.write("u1", self.properties['track_descriptors'][i]['casioevents'][l]['note_or_event'],
-                                      buffer)
-                buffer = writer.write("u1", self.properties['track_descriptors'][i]['casioevents'][l]['vel_or_val'],
-                                      buffer)
+                event = self.properties['track_descriptors'][i]['casioevents'][l]
+                buffer = writer.write("u1", event['delta'], buffer, "start_of_drum_track{0}".format(i) if l == 0 else "")
+                buffer = writer.write("u1", event['note_or_event'], buffer)
+                buffer = writer.write("u1", event['vel_or_val'], buffer)
         # fill in bookmarks
         for i in range(trackcount):
             value = writer.get_bookmark_position("start_of_drum_track{0}".format(i))

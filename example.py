@@ -9,17 +9,23 @@ def get_script_path():
 
 def main():
     a = Ac7File()
-    a.load_file(os.path.join(get_script_path(), "testfiles", "5-4 Jazz X700.AC7"))
+    a.load_file(os.path.join(get_script_path(), "testfiles", "unlock", "BAJANLOK.AC7"))
     result = []
-    with open(os.path.join(get_script_path(), "testfiles", "summary1.txt"), "w") as f:
+    with open(os.path.join(get_script_path(), "testfiles", "unlock", "BAJANLOK.txt"), "w") as f:
         f.write("\n".join(a.summarize(result)).replace(", ", ",\n"))
 
-    a.write_file(os.path.join(get_script_path(), "testfiles", "Result1.AC7"), allow_overwrite=True)
+    a.write_file(os.path.join(get_script_path(), "testfiles", "unlock", "00BAJUNL.AC7"), allow_overwrite=True)
 
     a = Ac7File()
-    a.load_file(os.path.join(get_script_path(), "testfiles", "Result1.AC7"))
+    a.load_file(os.path.join(get_script_path(), "testfiles", "unlock", "00BAJUNL.AC7"))
     result = []
-    with open(os.path.join(get_script_path(), "testfiles", "summary2.txt"), "w") as f:
+    with open(os.path.join(get_script_path(), "testfiles", "unlock", "00BAJUNL.txt"), "w") as f:
+        f.write("\n".join(a.summarize(result)).replace(", ", ",\n"))
+
+    a = Ac7File()
+    a.load_file(os.path.join(get_script_path(), "testfiles", "unlock", 'Straight 8-Beat CT-X3000 Fixed.AC7'))
+    result = []
+    with open(os.path.join(get_script_path(), "testfiles", "unlock", "straight.txt"), "w") as f:
         f.write("\n".join(a.summarize(result)).replace(", ", ",\n"))
 
 
