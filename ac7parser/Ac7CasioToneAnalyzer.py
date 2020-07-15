@@ -22,7 +22,7 @@ class Ac7CasioToneAnalyzer(object):
         }
         for i in range(127):
             if i not in self.tone_to_drumset:
-                self.tone_to_drumset[i] = "(unknown drumset)"
+                self.tone_to_drumset[i] = "(unknown drumset {0})".format(i)
 
         self.tone_to_gm = {
         0: "PIANO 1",

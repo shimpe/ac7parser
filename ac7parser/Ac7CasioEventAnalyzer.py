@@ -40,7 +40,7 @@ class Ac7CasioEventAnalyzer(object):
         if casioevent['note_or_event'] < 127 and casioevent['vel_or_val'] == 0:
             casioevent['annotation'] = 'note {0} off'.format(self.midi_to_note[casioevent['note_or_event']][0])
         if casioevent['note_or_event'] == 176 and casioevent['vel_or_val'] != 0:
-            casioevent['annotation'] = 'mod wheel on'
+            casioevent['annotation'] = 'mod wheel on (value {0})'.format(casioevent['vel_or_val'])
         if casioevent['note_or_event'] == 176 and casioevent['vel_or_val'] == 0:
             casioevent['annotation'] = 'mod wheel off'
         if casioevent['note_or_event'] == 229:
@@ -50,8 +50,7 @@ class Ac7CasioEventAnalyzer(object):
         if casioevent['note_or_event'] == 228:
             casioevent['annotation'] = 'UNKNOWN'
         if casioevent['note_or_event'] == 255 and casioevent['vel_or_val'] != 0:
-            casioevent[
-                'annotation'] = 'longdelta doesn\'t fit in single BYTE; longdelta = (vel_or_val << 8) + delta)'
+            casioevent['annotation'] = 'longdelta doesn\'t fit in single BYTE; longdelta = (vel_or_val << 8) + delta'
         if casioevent['note_or_event'] == 255 and casioevent['vel_or_val'] == 0 and casioevent['delta'] == 0:
             casioevent['annotation'] = 'pseudoevent to have even number?'
         if casioevent['note_or_event'] == 181:

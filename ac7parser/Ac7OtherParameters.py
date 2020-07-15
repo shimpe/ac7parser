@@ -119,7 +119,7 @@ class Ac7OtherParameters(Ac7Base):
         if chordtable not in table:
             print("Unknown chord table entry {0}. Please file a bug report on github and attach your .ac7 file.".format(
                 chordtable))
-            return "UNKNOWN"
+            return "UNKNOWN chord table {0}".format(chordtable)
         return table[chordtable]
 
     def _summarize(self, title, result):
