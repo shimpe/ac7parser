@@ -1,2 +1,2 @@
 # ac7parser
-ac7 parser
+experimental parser for binary casio .ac7 rhythm files
