@@ -11,7 +11,7 @@ class Ac7Element(Ac7Base):
         super().__init__()
         self.properties = defaultdict(lambda: [])
         self.el = el
-        self.lut = ac7elements
+        self.lut = ac7elements.copy()
         elems_in_lut = len(self.lut)
         for i in range(20):
             self.lut[i + elems_in_lut] = "unknown element type {0}".format(i)
