@@ -31,5 +31,5 @@ ac7partid = {
     "minor"     : 0xa,
 }
 
-ac7elements = {0: "intro", 1: "normal", 2: "variation", 3: "normal fill-in", 4: "variation fill-in", 5: "ending",
-                6: "intro 2", 7: "ending 2", 8: "variation 3", 9: "fill-in 3",  10: "fill-in 4", 11: "variation 4"}
+ac7elements = {0: "intro (1)", 1: "normal (var 1)", 2: "variation (var 2)", 3: "normal fill-in (1)", 4: "variation fill-in (2)", 5: "ending (1)",
+               6: "intro (2)", 7: "variation 3", 8: "variation 4", 9: "fill-in (3)",  10: "fill-in (4)", 11: "ending (2)" }
