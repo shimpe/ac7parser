@@ -44,5 +44,5 @@ FILL3 = 9
 FILL4 = 10
 END2 = 11
 
-ac7elements = {INTRO1: "intro (1)", VAR1: "normal (var 1)", VAR2: "variation (var 2)", FILL1: "normal fill-in (1)", FILL2 "variation fill-in (2)", END1: "ending (1)",
+ac7elements = {INTRO1: "intro (1)", VAR1: "normal (var 1)", VAR2: "variation (var 2)", FILL1: "normal fill-in (1)", FILL2: "variation fill-in (2)", END1: "ending (1)",
                INTRO2: "intro (2)", VAR3: "variation 3", VAR4: "variation 4", FILL3: "fill-in (3)",  FILL4: "fill-in (4)", END2: "ending (2)" }
